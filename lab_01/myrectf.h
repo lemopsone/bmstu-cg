@@ -1,26 +1,19 @@
 #ifndef MYRECTF_H
 #define MYRECTF_H
 
-#include <QObject>
-#include <QPointF>
-#include <QRectF>
+#include "myshapef.h"
 
-class MyRectF
+class MyRectF : public MyShapeF
 {
 public:
     MyRectF(QPointF p1, QPointF p2, QPointF p3, QPointF p4);
 
-    bool isValid(void);
-
-    QRectF boundingRect();
-    qreal top();
-    qreal bottom();
-    qreal left();
-    qreal right();
-    QPointF center();
+    bool isValid() override;
+    qreal area() override;
+    qreal perimeter() override;
 
 private:
-    QPointF points[4];
+    QList<QPointF> points;
 };
 
 #endif // MYRECTF_H

@@ -1,20 +1,21 @@
 #ifndef MYTRIANGLEF_H
 #define MYTRIANGLEF_H
 
-#include <QObject>
-#include <QPointF>
-#include <QVector2D>
-#include <QDebug>
+#include "myshapef.h"
 
-class MyTriangleF
+class MyTriangleF : public MyShapeF
 {
 public:
     MyTriangleF(QPointF p1, QPointF p2, QPointF p3);
     QPointF bisectIntersection(void);
     QPointF bisectIntersection2(void);
-    qreal area(void);
-    qreal innerCircleRadius(void);
 
+    qreal innerCircleRadius(void);
+    QRectF boundingRect(void) const;
+
+    bool isValid(void) override;
+    qreal area(void) override;
+    qreal perimeter(void) override;
 private:
     QPointF points[3];
 };

@@ -23,89 +23,41 @@ bool MyRectF::isValid()
 
     qreal tolerance = 0.001;
 
-    QPointF v1 = this->points[2] - this->points[1];
-    QPointF v2 = this->points[3] - this->points[2];
-    QPointF v3 = this->points[4] - this->points[3];
-    QPointF v4 = this->points[1] - this->points[4];
+    QVector2D vecA = QVector2D(this->points[1] - this->points[0]);
+    QVector2D vecB = QVector2D(this->points[2] - this->points[1]);
+    QVector2D vecC = QVector2D(this->points[3] - this->points[2]);
+    QVector2D vecD = QVector2D(this->points[0] - this->points[3]);
 
-    qreal dotProduct1 = QPointF::dotProduct(v1, v2);
-    qreal dotProduct2 = QPointF::dotProduct(v2, v3);
-    qreal dotProduct3 = QPointF::dotProduct(v3, v4);
-    qreal dotProduct4 = QPointF::dotProduct(v4, v1);
+    qreal dotAB = QVector2D::dotProduct(vecA, vecB);
+    qreal dotBC = QVector2D::dotProduct(vecB, vecC);
+    qreal dotCD = QVector2D::dotProduct(vecC, vecD);
+    qreal dotAD = QVector2D::dotProduct(vecD, vecA);
 
-    if (qAbs(dotProduct1) < tolerance &&
-        qAbs(dotProduct2) < tolerance &&
-        qAbs(dotProduct3) < tolerance &&
-        qAbs(dotProduct4) < tolerance)
+    if (qAbs(dotAB) < tolerance &&
+        qAbs(dotBC) < tolerance &&
+        qAbs(dotCD) < tolerance &&
+        qAbs(dotAD) < tolerance)
     {
         return true;
     }
     return false;
 }
 
-QRectF MyRectF::boundingRect()
+qreal MyRectF::area()
 {
-    return QRectF(
-        this->left(),
-        this->top(),
-        this->right() - this->left(),
-        this->bottom() - this->top()
-    );
+    QVector2D vecA = QVector2D(this->points[1] - this->points[0]);
+    QVector2D vecB = QVector2D(this->points[2] - this->points[1]);
+
+    return vecA.length() * vecB.length();
 }
 
-qreal MyRectF::top()
+qreal MyRectF::perimeter()
 {
-    qreal min = INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.y() < min)
-        {
-            min = point.y();
-        }
-    }
-    return min;
-}
+    QVector2D vecA = QVector2D(this->points[1] - this->points[0]);
+    QVector2D vecB = QVector2D(this->points[2] - this->points[1]);
+    QVector2D vecC = QVector2D(this->points[3] - this->points[2]);
+    QVector2D vecD = QVector2D(this->points[0] - this->points[3]);
+    qreal a = vecA.length(), b = vecB.length(), c = vecC.length(), d = vecD.length();
 
-qreal MyRectF::bottom()
-{
-    qreal max = -INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.y() > max)
-        {
-            max = point.y();
-        }
-    }
-    return max;
-}
-
-qreal MyRectF::left()
-{
-    qreal min = INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.y() < min)
-        {
-            min = point.x();
-        }
-    }
-    return min;
-}
-
-qreal MyRectF::right()
-{
-    qreal max = -INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.x() > max)
-        {
-            max = point.x();
-        }
-    }
-    return max;
-}
-
-QPointF MyRectF::center()
-{
-    return this->boundingRect().center();
+    return a + b + c + d;
 }
