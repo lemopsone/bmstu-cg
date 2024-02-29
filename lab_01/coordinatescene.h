@@ -6,6 +6,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QObject>
+#include "myrectf.h"
+#include "mytrianglef.h"
 
 class CoordinateScene : public QGraphicsScene
 {
@@ -36,7 +38,32 @@ public:
     QPointF toWindowCoords(QPointF planeCoords);
 
     void zoomAtPercent(double zoom);
+
     void drawPoint(QPainter *painter, QPointF point);
+    void drawLine(QPainter *painter, QLineF line);
+    void drawMyRect(QPainter *painter, MyRectF rect);
+    void drawMyTriangle(QPainter *painter, MyTriangleF triangle);
+    void drawEllipse(QPainter *painter, QRectF ellipse);
+
+    void addPoint(QGraphicsItem *point);
+    void removePoint(QGraphicsItem *point);
+    void removePoint(qsizetype idx);
+
+    void addRectangle(QGraphicsItem *rectangle);
+    void removeRectangle(QGraphicsItem *rectangle);
+    void removeRectangle(qsizetype idx);
+
+    void addCircle(QGraphicsItem *point);
+    void removeCircle(QGraphicsItem *circle);
+    void removeCircle(qsizetype idx);
+
+    void addLine(QGraphicsItem *line);
+    void removeLine(QGraphicsItem *line);
+    void removeLine(qsizetype idx);
+
+    void addTriangle(QGraphicsItem *triangle);
+    void removeTriangle(QGraphicsItem *triangle);
+    void removeTriangle(qsizetype idx);
 
     void setTransform(const QTransform transform);
     QTransform getTransform(void) const;
@@ -63,14 +90,14 @@ protected:
     QSizeF originalSize;
     double zoomPercent;
     QTransform transform;
+
+    // множество точек
     QList<QGraphicsItem *> points;
 
-    // this or
     QList<QGraphicsItem *> circles;
     QList<QGraphicsItem *> lines;
     QList<QGraphicsItem *> rectangles;
-    // this
-    QList<QGraphicsItem *> solution;
+    QList<QGraphicsItem *> triangles;
 
     //  Приватные методы
     void computeCoefficients(void);

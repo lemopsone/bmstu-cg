@@ -179,7 +179,6 @@ void CoordinateScene::drawBackground(QPainter *painter, const QRectF &rect)
         painter->drawLine(left, right);
     }
 
-
     // Оси абсцисс и ординат, центр окружности
     painter->setPen(Qt::black);
     bool intersectsX = this->plane.top() <= 0 && this->plane.bottom() >= 0;
@@ -235,6 +234,130 @@ void CoordinateScene::drawPoint(QPainter *painter, QPointF point)
     double rx = this->graphicsWindow.width() * 0.01;
     double ry = this->graphicsWindow.height() * 0.01;
     painter->drawEllipse(convertedPoint, rx, ry);
+}
+
+void CoordinateScene::addPoint(QGraphicsItem *point)
+{
+    this->points.append(point);
+    this->addItem(point);
+}
+
+void CoordinateScene::removePoint(QGraphicsItem *point)
+{
+    if (this->points.removeOne(point))
+    {
+        this->removeItem(point);
+        delete point;
+    }
+}
+
+void CoordinateScene::removePoint(qsizetype idx)
+{
+    if (this->points.size() <= idx)
+    {
+        return;
+    }
+    QGraphicsItem *point = this->points.at(idx);
+    this->removePoint(point);
+}
+
+void CoordinateScene::addRectangle(QGraphicsItem *rectangle)
+{
+    this->rectangles.append(rectangle);
+    this->addItem(rectangle);
+}
+
+void CoordinateScene::removeRectangle(QGraphicsItem *rectangle)
+{
+    if (this->rectangles.removeOne(rectangle))
+    {
+        this->removeItem(rectangle);
+        delete rectangle;
+    }
+}
+
+void CoordinateScene::removeRectangle(qsizetype idx)
+{
+    if (this->rectangles.size() <= idx)
+    {
+        return;
+    }
+    QGraphicsItem *rectangle = this->rectangles.at(idx);
+    this->removeRectangle(rectangle);
+}
+
+void CoordinateScene::addCircle(QGraphicsItem *circle)
+{
+    this->circles.append(circle);
+    this->addItem(circle);
+}
+
+void CoordinateScene::removeCircle(QGraphicsItem *circle)
+{
+    if (this->circles.removeOne(circle))
+    {
+        this->removeItem(circle);
+        delete circle;
+    }
+}
+
+void CoordinateScene::removeCircle(qsizetype idx)
+{
+    if (this->circles.size() <= idx)
+    {
+        return;
+    }
+    QGraphicsItem *circle = this->circles.at(idx);
+    this->removeCircle(circle);
+}
+
+void CoordinateScene::addLine(QGraphicsItem *line)
+{
+    this->lines.append(line);
+    this->addItem(line);
+}
+
+void CoordinateScene::removeLine(QGraphicsItem *line)
+{
+    if (this->lines.removeOne(line))
+    {
+        this->removeItem(line);
+        delete line;
+    }
+}
+
+void CoordinateScene::removeLine(qsizetype idx)
+{
+    if (this->lines.size() <= idx)
+    {
+        return;
+    }
+    QGraphicsItem *line = this->lines.at(idx);
+    this->removeLine(line);
+}
+void CoordinateScene::addTriangle(QGraphicsItem *triangle)
+{
+    this->triangles.append(triangle);
+    this->addItem(triangle);
+}
+
+void CoordinateScene::removeTriangle(QGraphicsItem *triangle)
+{
+    if (this->triangles.removeOne(triangle))
+    {
+        this->removeItem(triangle);
+        delete triangle;
+    }
+}
+
+void CoordinateScene::removeTriangle(qsizetype idx)
+{
+    if (this->triangles.size() <= idx)
+    {
+        return;
+    }
+    QGraphicsItem *triangle = this->triangles.at(idx);
+    this->removeTriangle(triangle);
 }
 
 void CoordinateScene::setTransform(const QTransform transform)
