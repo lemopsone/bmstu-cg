@@ -1,20 +1,20 @@
-#ifndef SCENEPOINT_H
-#define SCENEPOINT_H
+#ifndef SCENERECTANGLE_H
+#define SCENERECTANGLE_H
 
 #include "sceneobject.h"
+#include "myrectf.h"
 
-class ScenePoint : public SceneObject
+class SceneRectangle : public SceneObject
 {
 public:
-    ScenePoint(QPointF coords_, CoordinateScene *scene_);
-    // overrides
+    SceneRectangle(MyRectF rect_, CoordinateScene *scene_);
     QRectF boundingRect() const override;
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
 
 private:
-    QPointF coords;
+    MyRectF rect;
 };
 
-#endif // SCENEPOINT_H
+#endif // SCENERECTANGLE_H
