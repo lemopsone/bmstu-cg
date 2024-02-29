@@ -14,10 +14,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     myrectf.cpp \
+    myshapef.cpp \
     mytrianglef.cpp \
     pointrecord.cpp \
     pointtableviewmodel.cpp \
+    sceneellipse.cpp \
+    sceneobject.cpp \
     scenepoint.cpp \
+    scenerectangle.cpp \
+    scenetriangle.cpp \
     taskpopup.cpp
 
 HEADERS += \
@@ -25,10 +30,15 @@ HEADERS += \
     coordinatescene.h \
     mainwindow.h \
     myrectf.h \
+    myshapef.h \
     mytrianglef.h \
     pointrecord.h \
     pointtableviewmodel.h \
+    sceneellipse.h \
+    sceneobject.h \
     scenepoint.h \
+    scenerectangle.h \
+    scenetriangle.h \
     taskpopup.h
 
 FORMS += \

@@ -53,9 +53,9 @@ public:
     void removeRectangle(QGraphicsItem *rectangle);
     void removeRectangle(qsizetype idx);
 
-    void addCircle(QGraphicsItem *point);
-    void removeCircle(QGraphicsItem *circle);
-    void removeCircle(qsizetype idx);
+    void addEllipse(QGraphicsItem *point);
+    void removeEllipse(QGraphicsItem *circle);
+    void removeEllipse(qsizetype idx);
 
     void addLine(QGraphicsItem *line);
     void removeLine(QGraphicsItem *line);
@@ -94,7 +94,7 @@ protected:
     // множество точек
     QList<QGraphicsItem *> points;
 
-    QList<QGraphicsItem *> circles;
+    QList<QGraphicsItem *> ellipses;
     QList<QGraphicsItem *> lines;
     QList<QGraphicsItem *> rectangles;
     QList<QGraphicsItem *> triangles;

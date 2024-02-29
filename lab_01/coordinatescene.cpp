@@ -286,30 +286,31 @@ void CoordinateScene::removeRectangle(qsizetype idx)
     this->removeRectangle(rectangle);
 }
 
-void CoordinateScene::addCircle(QGraphicsItem *circle)
+void CoordinateScene::addEllipse(QGraphicsItem *ellipse)
 {
-    this->circles.append(circle);
-    this->addItem(circle);
+    this->ellipses.append(ellipse);
+    this->addItem(ellipse);
 }
 
-void CoordinateScene::removeCircle(QGraphicsItem *circle)
+void CoordinateScene::removeEllipse(QGraphicsItem *ellipse)
 {
-    if (this->circles.removeOne(circle))
+    if (this->ellipses.removeOne(ellipse))
     {
-        this->removeItem(circle);
-        delete circle;
+        this->removeItem(ellipse);
+        delete ellipse;
     }
 }
 
-void CoordinateScene::removeCircle(qsizetype idx)
+void CoordinateScene::removeEllipse(qsizetype idx)
 {
-    if (this->circles.size() <= idx)
+    if (this->ellipses.size() <= idx)
     {
         return;
     }
-    QGraphicsItem *circle = this->circles.at(idx);
-    this->removeCircle(circle);
+    QGraphicsItem *ellipse = this->ellipses.at(idx);
+    this->removeEllipse(ellipse);
 }
+
 
 void CoordinateScene::addLine(QGraphicsItem *line)
 {
