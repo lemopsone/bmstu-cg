@@ -1,11 +1,19 @@
 #include "myrectf.h"
 
+MyRectF::MyRectF()
+{
+    for (short i = 0; i < 4; i++)
+    {
+        this->points.push_back(QPointF());
+    }
+}
+
 MyRectF::MyRectF(QPointF p1, QPointF p2, QPointF p3, QPointF p4)
 {
-    this->points[0] = p1;
-    this->points[1] = p2;
-    this->points[2] = p3;
-    this->points[3] = p4;
+    this->points.push_back(p1);
+    this->points.push_back(p2);
+    this->points.push_back(p3);
+    this->points.push_back(p4);
 }
 
 bool MyRectF::isValid()

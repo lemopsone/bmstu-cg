@@ -6,18 +6,18 @@
 class MyTriangleF : public MyShapeF
 {
 public:
+    MyTriangleF();
     MyTriangleF(QPointF p1, QPointF p2, QPointF p3);
     QPointF bisectIntersection(void);
     QPointF bisectIntersection2(void);
 
     qreal innerCircleRadius(void);
-    QRectF boundingRect(void) const;
 
     bool isValid(void) override;
     qreal area(void) override;
     qreal perimeter(void) override;
 private:
-    QPointF points[3];
+    QList<QPointF> points;
 };
 
 #endif // MYTRIANGLEF_H

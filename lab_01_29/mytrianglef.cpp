@@ -1,11 +1,19 @@
 #include "mytrianglef.h"
 #include <QDebug>
 
+MyTriangleF::MyTriangleF()
+{
+    for (short i = 0; i < 3; i++)
+    {
+        this->points.push_back(QPointF());
+    }
+}
+
 MyTriangleF::MyTriangleF(QPointF p1, QPointF p2, QPointF p3)
 {
-    this->points[0] = p1;
-    this->points[1] = p2;
-    this->points[2] = p3;
+    this->points.push_back(p1);
+    this->points.push_back(p2);
+    this->points.push_back(p3);
 }
 
 bool MyTriangleF::isValid()
