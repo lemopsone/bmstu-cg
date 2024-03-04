@@ -20,7 +20,9 @@ void SceneTriangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         return;
     }
     painter->setTransform(this->scene->getTransform());
-    painter->setPen(Qt::black);
+    QPen pen = QPen(Qt::cyan);
+    pen.setWidth(3);
+    painter->setPen(pen);
     painter->setBrush(QColor(Qt::cyan));
 
     this->scene->drawMyTriangle(painter, this->triangle);

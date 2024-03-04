@@ -34,8 +34,7 @@ void SceneEllipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         return;
     }
     painter->setTransform(this->scene->getTransform());
-    painter->setPen(Qt::black);
-    painter->setBrush(QColor(Qt::magenta));
+    painter->setPen(Qt::magenta);
 
     this->scene->drawEllipse(painter, this->boundingRect());
 }

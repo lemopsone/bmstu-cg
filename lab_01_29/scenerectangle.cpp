@@ -20,7 +20,9 @@ void SceneRectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         return;
     }
     painter->setTransform(this->scene->getTransform());
-    painter->setPen(Qt::black);
+    QPen pen = QPen(QColor(QString("#FC6600")));
+    pen.setWidth(3);
+    painter->setPen(pen);
     painter->setBrush(QColor(QString("#FC6600")));
 
     this->scene->drawMyRect(painter, rect);
