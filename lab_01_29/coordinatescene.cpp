@@ -232,8 +232,50 @@ void CoordinateScene::drawPoint(QPainter *painter, QPointF point)
 {
     QPointF convertedPoint = this->toWindowCoords(point);
     double rx = this->graphicsWindow.width() * 0.01;
-    double ry = this->graphicsWindow.height() * 0.01;
-    painter->drawEllipse(convertedPoint, rx, ry);
+    painter->drawEllipse(convertedPoint, rx, rx);
+}
+
+void CoordinateScene::drawMyRect(QPainter *painter, MyRectF rect)
+{
+    Q_ASSERT(rect.isValid());
+
+    QList<QPointF> points = rect.getPoints();
+    // Приведение точек к координатам окна
+    for (short i = 0; i < 4; i++)
+    {
+        points[i] = this->toWindowCoords(points[i]);
+    }
+    // Отрисовка линий
+    for (short i = 0; i < 4; i++)
+    {
+        painter->drawLine(QLineF(points[i % 4], points[(i + 1) % 4]));
+    }
+
+}
+
+void CoordinateScene::drawMyTriangle(QPainter *painter, MyTriangleF triangle)
+{
+    Q_ASSERT(triangle.isValid());
+
+    QList<QPointF> points = triangle.getPoints();
+    for (short i = 0; i < 3; i++)
+    {
+        points[i] = this->toWindowCoords(points[i]);
+    }
+    for (short i = 0; i < 3; i++)
+    {
+        painter->drawLine(QLineF(points[i % 3], points[(i + 1) %3]));
+    }
+
+}
+
+void CoordinateScene::drawEllipse(QPainter *painter, QRectF ellipse)
+{
+    painter->drawEllipse(
+        this->toWindowCoords(ellipse.center()),
+        ellipse.width() * this->cX,
+        ellipse.height() * this->cY
+    );
 }
 
 void CoordinateScene::addPoint(QGraphicsItem *point)
