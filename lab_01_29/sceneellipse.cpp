@@ -19,8 +19,8 @@ QRectF SceneEllipse::boundingRect() const
     return QRectF(
         this->ellipseCenter.x() - this->radiusX,
         this->ellipseCenter.y() - this->radiusY,
-        this->ellipseCenter.x() + this->radiusX,
-        this->ellipseCenter.y() + this->radiusY
+        2 * this->radiusX,
+        2 * this->radiusY
         );
 }
 
