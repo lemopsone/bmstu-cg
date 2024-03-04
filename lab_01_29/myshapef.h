@@ -18,11 +18,12 @@ public:
     qreal left() const;
     qreal right() const;
     QPointF center() const;
+    QList<QPointF> getPoints();
 
     virtual bool isValid() = 0;
     virtual qreal area() = 0;
     virtual qreal perimeter() = 0;
-private:
+protected:
     QList<QPointF> points;
 };
 

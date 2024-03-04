@@ -68,3 +68,8 @@ QPointF MyShapeF::center() const
 {
     return this->boundingRect().center();
 }
+
+QList<QPointF> MyShapeF::getPoints()
+{
+    return this->points;
+}

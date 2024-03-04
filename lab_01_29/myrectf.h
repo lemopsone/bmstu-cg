@@ -12,9 +12,6 @@ public:
     bool isValid() override;
     qreal area() override;
     qreal perimeter() override;
-
-private:
-    QList<QPointF> points;
 };
 
 #endif // MYRECTF_H

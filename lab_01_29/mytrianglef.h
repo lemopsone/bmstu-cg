@@ -16,8 +16,6 @@ public:
     bool isValid(void) override;
     qreal area(void) override;
     qreal perimeter(void) override;
-private:
-    QList<QPointF> points;
 };
 
 #endif // MYTRIANGLEF_H
