@@ -133,7 +133,7 @@ void MainWindow::onSceneClicked(QPointF point)
 {
     point.setX(std::round(point.x() * 1000.0) / 1000.0);
     point.setY(std::round(point.y() * 1000.0) / 1000.0);
-    this->scene->addItem(new ScenePoint(point, this->scene));
+    this->scene->addPoint(new ScenePoint(point, this->scene));
     this->scene->update();
     this->pointTableModel->appendRecord(PointRecord(point));
 }

@@ -502,9 +502,9 @@ void CoordinateScene::removeIntersectingPoint(QPointF clickedPoint)
     int index = -1;
     double minDistance = INFINITY;
     double pointSize = this->graphicsWindow.height() * 0.02 / this->cX;
-    for (qsizetype i = 0; i < this->items().size(); i++)
+    for (qsizetype i = 0; i < this->points.size(); i++)
     {
-        double curDistance = this->getDistance(this->toPlaneCoords(this->items().at(i)->boundingRect().center()), clickedPoint);
+        double curDistance = this->getDistance(this->toPlaneCoords(this->points[i]->boundingRect().center()), clickedPoint);
         if (curDistance < pointSize && curDistance < minDistance)
         {
             minDistance = curDistance;
