@@ -3,7 +3,7 @@
 CoordinateScene::CoordinateScene(QRectF windowRect, QRectF planeRect, bool isVisible, QObject *parent)
     : QGraphicsScene{parent}
 {
-    // std::cout<< "constructor" << std::endl;
+    this->setItemIndexMethod(ItemIndexMethod::NoIndex);
     this->setGridVisibility(isVisible);
     this->setGraphicsWindow(windowRect, false);
     this->setPlane(planeRect, true);
