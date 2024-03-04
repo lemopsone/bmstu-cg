@@ -9,16 +9,16 @@ ScenePoint::ScenePoint(QPointF coordinates, CoordinateScene *scene_) : SceneObje
         .arg(std::round(this->coords.x() * 1000.0) / 1000.0)
         .arg(std::round(this->coords.y() * 1000.0) / 1000.0)
     );
+
 }
 
 QRectF ScenePoint::boundingRect() const
 {
-    // QPointF windowCoordsCenter = this->scene->toWindowCoords(this->coords);
-    // qreal diameter = this->scene->getGraphicsWindow().width() * 0.02;
-    // QPointF windowCoordsTopLeft = windowCoordsCenter - QPointF(diameter / 2, diameter / 2);
-    // QSizeF pointSize = QSizeF(diameter, diameter);
-    // return QRectF(windowCoordsTopLeft, pointSize);
-    return QRectF(this->coords, QSizeF(0, 0));
+    QPointF windowCoordsCenter = this->scene->toWindowCoords(this->coords);
+    qreal diameter = this->scene->getGraphicsWindow().width() * 0.02;
+    QPointF windowCoordsTopLeft = windowCoordsCenter - QPointF(diameter / 2, diameter / 2);
+    QSizeF pointSize = QSizeF(diameter, diameter);
+    return QRectF(windowCoordsTopLeft, pointSize);
 }
 
 void ScenePoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
