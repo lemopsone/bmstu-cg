@@ -12,6 +12,8 @@ QRectF SceneRectangle::boundingRect() const
 
 void SceneRectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     QRectF boundingRect = this->boundingRect();
     if (!this->scene->getGraphicsWindow().intersects(boundingRect))
     {

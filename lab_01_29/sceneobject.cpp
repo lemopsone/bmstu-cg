@@ -9,10 +9,12 @@ SceneObject::SceneObject(CoordinateScene *scene_)
 
 void SceneObject::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event);
     return;
 }
 
 void SceneObject::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED(event);
     return;
 }

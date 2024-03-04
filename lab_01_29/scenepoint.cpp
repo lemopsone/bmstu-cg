@@ -23,6 +23,8 @@ QRectF ScenePoint::boundingRect() const
 
 void ScenePoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     // Если точка не входит в рабочую зону, не отрисовываем
     QRectF boundingRect = this->boundingRect();
     if (!this->scene->getGraphicsWindow().intersects(boundingRect))
@@ -40,4 +42,3 @@ void ScenePoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     this->scene->drawPoint(painter, this->coords);
 }
-
