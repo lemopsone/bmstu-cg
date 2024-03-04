@@ -170,14 +170,14 @@ void MainWindow::onSelectionChanged(const QItemSelection &selected, const QItemS
     {
         if (index.row() < this->scene->items().count())
         {
-            this->scene->items(Qt::AscendingOrder).at(index.row())->setSelected(true);
+            this->scene->setPointSelection(index.row(), true);
         }
     }
     for (auto index : unselected.indexes())
     {
         if (index.row() < this->scene->items().count())
         {
-            this->scene->items(Qt::AscendingOrder).at(index.row())->setSelected(false);
+            this->scene->setPointSelection(index.row(), false);
         }
     }
     this->scene->update();
@@ -204,11 +204,12 @@ void MainWindow::onDeleteButtonClicked()
     std::sort(selectedRowsIndexes.rbegin(), selectedRowsIndexes.rend());
     for (auto index : selectedRowsIndexes)
     {
-        qDebug() << index;
         if (this->pointTableModel->rowCount() > index.row())
         {
             this->pointTableModel->deleteRow(index.row());
         }
     }
+
+    this->ui->pointsTableView->selectionModel()->clearSelection();
 }
 

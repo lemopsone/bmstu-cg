@@ -413,6 +413,14 @@ QTransform CoordinateScene::getTransform() const
     return this->transform;
 }
 
+void CoordinateScene::setPointSelection(qsizetype idx, bool state)
+{
+    if (idx < this->points.size())
+    {
+        this->points[idx]->setSelected(state);
+    }
+}
+
 void CoordinateScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     QPointF windowPoint = mouseEvent->scenePos();

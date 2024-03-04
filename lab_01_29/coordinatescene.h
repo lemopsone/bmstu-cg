@@ -67,6 +67,8 @@ public:
 
     void setTransform(const QTransform transform);
     QTransform getTransform(void) const;
+
+    void setPointSelection(qsizetype idx, bool state);
 signals:
     void zoomChanged(double value);
     void sceneClicked(QPointF point);
