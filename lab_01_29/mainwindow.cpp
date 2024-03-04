@@ -190,8 +190,7 @@ void MainWindow::onDeleteButtonClicked()
     {
         if (this->scene->items().contains(point))
         {
-            this->scene->removeItem(point);
-            delete point;
+            this->scene->removePoint(point);
         }
     }
 

@@ -290,6 +290,7 @@ void CoordinateScene::removePoint(QGraphicsItem *point)
     {
         this->removeItem(point);
         delete point;
+        point = nullptr;
     }
 }
 
@@ -315,6 +316,7 @@ void CoordinateScene::removeRectangle(QGraphicsItem *rectangle)
     {
         this->removeItem(rectangle);
         delete rectangle;
+        rectangle = nullptr;
     }
 }
 
@@ -340,6 +342,7 @@ void CoordinateScene::removeEllipse(QGraphicsItem *ellipse)
     {
         this->removeItem(ellipse);
         delete ellipse;
+        ellipse = nullptr;
     }
 }
 
@@ -366,6 +369,7 @@ void CoordinateScene::removeLine(QGraphicsItem *line)
     {
         this->removeItem(line);
         delete line;
+        line = nullptr;
     }
 }
 
@@ -390,6 +394,7 @@ void CoordinateScene::removeTriangle(QGraphicsItem *triangle)
     {
         this->removeItem(triangle);
         delete triangle;
+        triangle = nullptr;
     }
 }
 
@@ -509,7 +514,7 @@ void CoordinateScene::removeIntersectingPoint(QPointF clickedPoint)
 
     if (minDistance != INFINITY)
     {
-        delete this->items().at(index);
+        this->removePoint(index);
 
         emit pointDeleted(index);
         this->update();
@@ -523,7 +528,10 @@ double CoordinateScene::getDistance(QPointF a, QPointF b)
 
 void CoordinateScene::removeAllPoints(void)
 {
-    qDeleteAll(this->items());
+    for (qsizetype i = this->points.size() - 1; i > -1; i--)
+    {
+        this->removePoint(i);
+    }
     this->update();
 }
 
