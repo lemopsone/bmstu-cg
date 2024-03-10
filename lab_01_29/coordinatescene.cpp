@@ -235,6 +235,13 @@ void CoordinateScene::drawPoint(QPainter *painter, QPointF point)
     painter->drawEllipse(convertedPoint, rx, rx);
 }
 
+void CoordinateScene::drawLine(QPainter *painter, QLineF line)
+{
+    QPointF p1 = this->toWindowCoords(line.p1());
+    QPointF p2 = this->toWindowCoords(line.p2());
+    painter->drawLine(p1, p2);
+}
+
 void CoordinateScene::drawMyRect(QPainter *painter, MyRectF rect)
 {
     Q_ASSERT(rect.isValid());

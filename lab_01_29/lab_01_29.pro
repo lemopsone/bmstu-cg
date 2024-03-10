@@ -19,6 +19,7 @@ SOURCES += \
     pointrecord.cpp \
     pointtableviewmodel.cpp \
     sceneellipse.cpp \
+    sceneline.cpp \
     sceneobject.cpp \
     scenepoint.cpp \
     scenerectangle.cpp \
@@ -35,6 +36,7 @@ HEADERS += \
     pointrecord.h \
     pointtableviewmodel.h \
     sceneellipse.h \
+    sceneline.h \
     sceneobject.h \
     scenepoint.h \
     scenerectangle.h \
