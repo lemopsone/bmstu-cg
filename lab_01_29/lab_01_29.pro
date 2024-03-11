@@ -60,5 +60,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     cancel.png
 
-RESOURCES += \
-    application.qrc
+RESOURCES +=
