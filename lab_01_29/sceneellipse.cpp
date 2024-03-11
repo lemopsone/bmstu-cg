@@ -1,4 +1,5 @@
 #include "sceneellipse.h"
+#include "coordinatescene.h"
 
 SceneEllipse::SceneEllipse(QPointF center_, qreal rx, qreal ry, CoordinateScene *scene_) : SceneObject(scene_)
 {
@@ -17,11 +18,11 @@ SceneEllipse::SceneEllipse(QPointF center_, qreal r, CoordinateScene *scene_) : 
 QRectF SceneEllipse::boundingRect() const
 {
     return QRectF(
-        this->ellipseCenter.x() - this->radiusX,
-        this->ellipseCenter.y() - this->radiusY,
-        2 * this->radiusX,
-        2 * this->radiusY
-        );
+        this->ellipseCenter.x(),
+        this->ellipseCenter.y(),
+        this->radiusX,
+        this->radiusY
+    );
 }
 
 void SceneEllipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

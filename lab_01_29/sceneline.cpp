@@ -1,4 +1,5 @@
 #include "sceneline.h"
+#include "coordinatescene.h"
 
 SceneLine::SceneLine(QLineF line_, CoordinateScene *scene_) : SceneObject(scene_)
 {
@@ -24,7 +25,7 @@ void SceneLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     QPen pen = QPen(Qt::darkBlue);
     pen.setWidth(2);
     painter->setPen(pen);
-    this->scene->drawLine(painter, this->line);
+    this->scene->drawLine(painter, this->line, true);
 }
 
 

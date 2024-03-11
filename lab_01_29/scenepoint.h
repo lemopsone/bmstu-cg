@@ -13,7 +13,6 @@ public:
                const QStyleOptionGraphicsItem *option,
                QWidget *widget) override;
 
-private:
     QPointF coords;
 };
 

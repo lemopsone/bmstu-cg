@@ -3,12 +3,13 @@
 
 #include <QGraphicsItem>
 #include <QPainter>
-#include "coordinatescene.h"
+
+class CoordinateScene;
 
 class SceneObject : public QGraphicsItem
 {
 public:
-    SceneObject(CoordinateScene *scene_);
+    SceneObject(CoordinateScene *scene);
 
     virtual QRectF boundingRect() const override = 0;
     virtual void paint(QPainter *painter,

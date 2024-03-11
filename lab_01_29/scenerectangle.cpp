@@ -1,4 +1,5 @@
 #include "scenerectangle.h"
+#include "coordinatescene.h"
 
 SceneRectangle::SceneRectangle(MyRectF rect_, CoordinateScene *scene_) : SceneObject(scene_)
 {
@@ -26,4 +27,11 @@ void SceneRectangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
     painter->setBrush(QColor(QString("#FC6600")));
 
     this->scene->drawMyRect(painter, rect);
+    this->scene->drawPoint(painter, this->rect.center());
+    QList<QPointF> points = this->rect.getPoints();
+    for (qsizetype i = 0; i < 4; i ++)
+    {
+        this->scene->drawPoint(painter, points[i],
+                               QString() + (char)('A' + i));
+    }
 }

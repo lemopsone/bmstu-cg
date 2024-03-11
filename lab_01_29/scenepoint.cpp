@@ -1,4 +1,5 @@
 #include "scenepoint.h"
+#include "coordinatescene.h"
 
 ScenePoint::ScenePoint(QPointF coordinates, CoordinateScene *scene_) : SceneObject(scene_)
 {
@@ -9,16 +10,14 @@ ScenePoint::ScenePoint(QPointF coordinates, CoordinateScene *scene_) : SceneObje
         .arg(std::round(this->coords.x() * 1000.0) / 1000.0)
         .arg(std::round(this->coords.y() * 1000.0) / 1000.0)
     );
-
+    this->setZValue(2);
 }
 
 QRectF ScenePoint::boundingRect() const
 {
-    QPointF windowCoordsCenter = this->scene->toWindowCoords(this->coords);
-    qreal diameter = this->scene->getGraphicsWindow().width() * 0.02;
-    QPointF windowCoordsTopLeft = windowCoordsCenter - QPointF(diameter / 2, diameter / 2);
+    qreal diameter = this->scene->getPlane().width() * 0.02;
     QSizeF pointSize = QSizeF(diameter, diameter);
-    return QRectF(windowCoordsTopLeft, pointSize);
+    return QRectF(this->coords - QPointF(diameter / 2, diameter / 2), pointSize);
 }
 
 void ScenePoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -40,5 +39,6 @@ void ScenePoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setPen(Qt::black);
     painter->setBrush(brush);
 
-    this->scene->drawPoint(painter, this->coords);
+    qsizetype idx = this->scene->getPoints().indexOf(this);
+    this->scene->drawPoint(painter, this->coords, QString::number(idx));
 }
