@@ -46,6 +46,11 @@ public slots:
     void onTablePointAdded(QPointF point);
     void onSelectionChanged(const QItemSelection&, const QItemSelection&);
     void onDeleteButtonClicked();
+    void onRectangleAcceptButtonClicked();
+    void onRectangleResetButtonClicked();
+    void onSolveTaskButtonClicked();
+    void onAutoScaleRadioToggle(bool);
+    void onSceneChanged();
 
 private:
     Ui::MainWindow *ui;
