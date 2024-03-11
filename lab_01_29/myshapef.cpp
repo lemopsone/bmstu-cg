@@ -43,7 +43,7 @@ qreal MyShapeF::left() const
     qreal min = INFINITY;
     for (auto point : this->points)
     {
-        if (point.y() < min)
+        if (point.x() < min)
         {
             min = point.x();
         }

@@ -7,6 +7,7 @@ class MyRectF : public MyShapeF
 {
 public:
     MyRectF();
+    MyRectF(QPointF points_[4]);
     MyRectF(QPointF p1, QPointF p2, QPointF p3, QPointF p4);
 
     bool isValid() override;

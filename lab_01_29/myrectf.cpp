@@ -8,6 +8,14 @@ MyRectF::MyRectF()
     }
 }
 
+MyRectF::MyRectF(QPointF points_[4])
+{
+    this->points.push_back(points_[0]);
+    this->points.push_back(points_[1]);
+    this->points.push_back(points_[2]);
+    this->points.push_back(points_[3]);
+}
+
 MyRectF::MyRectF(QPointF p1, QPointF p2, QPointF p3, QPointF p4)
 {
     this->points.push_back(p1);
