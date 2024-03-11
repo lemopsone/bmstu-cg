@@ -8,6 +8,7 @@
 #include "coordinatescene.h"
 #include "pointtableviewmodel.h"
 #include "addrecorddialog.h"
+#include "test.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,7 +20,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Test test, QWidget *parent = nullptr);
     ~MainWindow();
     TaskPopUp *taskPop;
     CoordinateScene *scene;
@@ -49,6 +50,11 @@ public slots:
 private:
     Ui::MainWindow *ui;
     PointTableViewModel *pointTableModel;
+    void addSolution(double minAngle, QLineF line, MyTriangleF triangle);
+    void clearSolution(void);
+    void populateTestData(Test);
+    qreal findSolution(const MyRectF &rect, const QList<ScenePoint *>& points,
+                       QLineF &resultLine, MyTriangleF &resultTriangle);
 };
 
 #endif // MAINWINDOW_H

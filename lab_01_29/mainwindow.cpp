@@ -3,12 +3,11 @@
 #include "ui_mainwindow.h"
 #include "mytrianglef.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(Test test, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     this->ui->setupUi(this);
-
 
     // Сборка всплывающего окна с заданием
     this->initTaskPopUp();
@@ -23,19 +22,18 @@ MainWindow::MainWindow(QWidget *parent)
     // Сигналы, слоты
     this->connectAll();
 
-    MyTriangleF triangle = MyTriangleF(
-        QPointF(0, 0),
-        QPointF(7, 3),
-        QPointF(10, 10)
-    );
-    triangle.bisectIntersection();
-    triangle.bisectIntersection2();
+    // Если есть активный тест, добавить все точки и построить прямоугольник
+    if (!test.isEmpty())
+    {
+        this->populateTestData(test);
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete this->scene;
     delete this->ui;
+    delete this->taskPop;
     delete this->pointTableModel;
     delete this->addRecordDialog;
 }
