@@ -3,7 +3,7 @@
  <class>AddRecordDialog</class>
  <widget class="QDialog" name="AddRecordDialog">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -19,11 +19,23 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>252</width>
+    <height>141</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>252</width>
+    <height>141</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Добавление точки</string>
   </property>
   <property name="modal">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
@@ -87,7 +99,7 @@
     <rect>
      <x>20</x>
      <y>100</y>
-     <width>211</width>
+     <width>223</width>
      <height>32</height>
     </rect>
    </property>
@@ -99,6 +111,9 @@
      <widget class="QPushButton" name="cancelButton">
       <property name="text">
        <string>Отмена</string>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -112,6 +127,9 @@
       </property>
       <property name="text">
        <string>Добавить точку</string>
+      </property>
+      <property name="default">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
