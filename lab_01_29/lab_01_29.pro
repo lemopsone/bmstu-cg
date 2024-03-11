@@ -24,7 +24,9 @@ SOURCES += \
     scenepoint.cpp \
     scenerectangle.cpp \
     scenetriangle.cpp \
-    taskpopup.cpp
+    taskpopup.cpp \
+    test.cpp \
+    testparser.cpp
 
 HEADERS += \
     addrecorddialog.h \
@@ -41,7 +43,9 @@ HEADERS += \
     scenepoint.h \
     scenerectangle.h \
     scenetriangle.h \
-    taskpopup.h
+    taskpopup.h \
+    test.h \
+    testparser.h
 
 FORMS += \
     addrecorddialog.ui \
