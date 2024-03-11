@@ -58,7 +58,6 @@ void CoordinateScene::setPlane(QPointF topLeft, double w, double h, bool update)
 {
     this->plane = QRectF(topLeft.x(), topLeft.y(), w, h);
     this->computeCoefficients();
-
     if (update)
     {
         this->update();
@@ -228,18 +227,28 @@ void CoordinateScene::drawCenter(QPainter *painter)
  * @param painter doesn't change pen/brush color itself
  * @param point plane coordinates
  */
-void CoordinateScene::drawPoint(QPainter *painter, QPointF point)
+void CoordinateScene::drawPoint(QPainter *painter, QPointF point, QString text)
 {
     QPointF convertedPoint = this->toWindowCoords(point);
-    double rx = this->graphicsWindow.width() * 0.01;
+    double rx = 8;
     painter->drawEllipse(convertedPoint, rx, rx);
+
+    if (!text.isEmpty())
+    {
+        this->drawText(painter, convertedPoint - QPointF(rx, -rx), QSizeF(2 * rx, 2 * rx), text);
+    }
 }
 
-void CoordinateScene::drawLine(QPainter *painter, QLineF line)
+void CoordinateScene::drawLine(QPainter *painter, QLineF line, bool showAngle)
 {
     QPointF p1 = this->toWindowCoords(line.p1());
     QPointF p2 = this->toWindowCoords(line.p2());
     painter->drawLine(p1, p2);
+
+    if (showAngle)
+    {
+        this->drawLineAngle(painter, QLineF(p1, p2));
+    }
 }
 
 void CoordinateScene::drawMyRect(QPainter *painter, MyRectF rect)
@@ -279,25 +288,78 @@ void CoordinateScene::drawMyTriangle(QPainter *painter, MyTriangleF triangle)
 void CoordinateScene::drawEllipse(QPainter *painter, QRectF ellipse)
 {
     painter->drawEllipse(
-        this->toWindowCoords(ellipse.center()),
+        this->toWindowCoords(ellipse.topLeft()),
         ellipse.width() * this->cX,
         ellipse.height() * this->cY
     );
 }
 
-void CoordinateScene::addPoint(QGraphicsItem *point)
+void CoordinateScene::drawText(QPainter *painter, QPointF startingPos, QString text)
+{
+    QTransform transform;
+    transform.translate(startingPos.x() - this->graphicsWindow.left(), this->graphicsWindow.bottom() - startingPos.y());
+    painter->save();
+    painter->setTransform(transform);
+    painter->setFont(QFont("Times New Roman"));
+    painter->drawText(QPointF(0, 0), text);
+    painter->restore();
+}
+
+void CoordinateScene::drawText(QPainter *painter, QPointF startingPos, QSizeF size, QString text)
+{
+    QTransform transform;
+    transform.translate(startingPos.x() - this->graphicsWindow.left(), this->graphicsWindow.bottom() - startingPos.y());
+    painter->save();
+    painter->setTransform(transform);
+    painter->setFont(QFont("Times New Roman"));
+    painter->setPen(Qt::white);
+    painter->drawText(QRectF(QPointF(0, 0), size), Qt::AlignHCenter | Qt::AlignTop, text);
+    painter->restore();
+}
+
+void CoordinateScene::drawLineAngle(QPainter *painter, QLineF line)
+{
+    QPointF p1 = line.p1();
+    QLineF axis = QLineF(p1 - QPointF(5, 0), p1 + QPointF(5, 0));
+    qreal angle = line.angleTo(axis);
+    qreal antiClockwiseAngle = std::min(angle, 360.0 - angle);
+    qreal clockwiseAngle = 180 - antiClockwiseAngle;
+    qreal c = (angle == antiClockwiseAngle) ? 1 : -1;
+    QRectF rect = QRectF (p1 - QPointF(25, 25), QSizeF(50, 50));
+    if (antiClockwiseAngle < clockwiseAngle)
+    {
+        painter->drawArc(rect, 0, -antiClockwiseAngle * 16 * c);
+        painter->drawLine(p1, p1 + QPointF(25, 0));
+        this->drawText(painter, p1 + QPointF(30, 10 * c), printableAngle(antiClockwiseAngle));
+    }
+    else
+    {
+        painter->drawArc(rect, 180 * 16, clockwiseAngle * 16 * c);
+        painter->drawLine(p1, p1 - QPointF(25, 0));
+        this->drawText(painter, p1 + QPointF(-80, 10 * c), printableAngle(clockwiseAngle));
+    }
+}
+
+QList<ScenePoint *> CoordinateScene::getPoints()
+{
+    return this->points;
+}
+
+void CoordinateScene::addPoint(ScenePoint *point)
 {
     this->points.append(point);
     this->addItem(point);
+    this->update();
 }
 
-void CoordinateScene::removePoint(QGraphicsItem *point)
+void CoordinateScene::removePoint(ScenePoint *point)
 {
     if (this->points.removeOne(point))
     {
         this->removeItem(point);
         delete point;
         point = nullptr;
+        this->update();
     }
 }
 
@@ -307,23 +369,30 @@ void CoordinateScene::removePoint(qsizetype idx)
     {
         return;
     }
-    QGraphicsItem *point = this->points.at(idx);
+    ScenePoint *point = this->points.at(idx);
     this->removePoint(point);
 }
 
-void CoordinateScene::addRectangle(QGraphicsItem *rectangle)
+QList<SceneRectangle *> CoordinateScene::getRectangles()
+{
+    return this->rectangles;
+}
+
+void CoordinateScene::addRectangle(SceneRectangle *rectangle)
 {
     this->rectangles.append(rectangle);
     this->addItem(rectangle);
+    this->update();
 }
 
-void CoordinateScene::removeRectangle(QGraphicsItem *rectangle)
+void CoordinateScene::removeRectangle(SceneRectangle *rectangle)
 {
     if (this->rectangles.removeOne(rectangle))
     {
         this->removeItem(rectangle);
         delete rectangle;
         rectangle = nullptr;
+        this->update();
     }
 }
 
@@ -333,23 +402,30 @@ void CoordinateScene::removeRectangle(qsizetype idx)
     {
         return;
     }
-    QGraphicsItem *rectangle = this->rectangles.at(idx);
+    SceneRectangle *rectangle = this->rectangles.at(idx);
     this->removeRectangle(rectangle);
 }
 
-void CoordinateScene::addEllipse(QGraphicsItem *ellipse)
+QList<SceneEllipse *> CoordinateScene::getEllipses()
+{
+    return this->ellipses;
+}
+
+void CoordinateScene::addEllipse(SceneEllipse *ellipse)
 {
     this->ellipses.append(ellipse);
     this->addItem(ellipse);
+    this->update();
 }
 
-void CoordinateScene::removeEllipse(QGraphicsItem *ellipse)
+void CoordinateScene::removeEllipse(SceneEllipse *ellipse)
 {
     if (this->ellipses.removeOne(ellipse))
     {
         this->removeItem(ellipse);
         delete ellipse;
         ellipse = nullptr;
+        this->update();
     }
 }
 
@@ -359,24 +435,31 @@ void CoordinateScene::removeEllipse(qsizetype idx)
     {
         return;
     }
-    QGraphicsItem *ellipse = this->ellipses.at(idx);
+    SceneEllipse *ellipse = this->ellipses.at(idx);
     this->removeEllipse(ellipse);
 }
 
+QList<SceneLine *> CoordinateScene::getLines()
+{
+    return this->lines;
+}
 
-void CoordinateScene::addLine(QGraphicsItem *line)
+
+void CoordinateScene::addLine(SceneLine *line)
 {
     this->lines.append(line);
     this->addItem(line);
+    this->update();
 }
 
-void CoordinateScene::removeLine(QGraphicsItem *line)
+void CoordinateScene::removeLine(SceneLine *line)
 {
     if (this->lines.removeOne(line))
     {
         this->removeItem(line);
         delete line;
         line = nullptr;
+        this->update();
     }
 }
 
@@ -386,22 +469,29 @@ void CoordinateScene::removeLine(qsizetype idx)
     {
         return;
     }
-    QGraphicsItem *line = this->lines.at(idx);
+    SceneLine *line = this->lines.at(idx);
     this->removeLine(line);
 }
-void CoordinateScene::addTriangle(QGraphicsItem *triangle)
+
+QList<SceneTriangle *> CoordinateScene::getTriangles()
+{
+    return this->triangles;
+}
+void CoordinateScene::addTriangle(SceneTriangle *triangle)
 {
     this->triangles.append(triangle);
     this->addItem(triangle);
+    this->update();
 }
 
-void CoordinateScene::removeTriangle(QGraphicsItem *triangle)
+void CoordinateScene::removeTriangle(SceneTriangle *triangle)
 {
     if (this->triangles.removeOne(triangle))
     {
         this->removeItem(triangle);
         delete triangle;
         triangle = nullptr;
+        this->update();
     }
 }
 
@@ -411,7 +501,7 @@ void CoordinateScene::removeTriangle(qsizetype idx)
     {
         return;
     }
-    QGraphicsItem *triangle = this->triangles.at(idx);
+    SceneTriangle *triangle = this->triangles.at(idx);
     this->removeTriangle(triangle);
 }
 
@@ -425,12 +515,86 @@ QTransform CoordinateScene::getTransform() const
     return this->transform;
 }
 
+void CoordinateScene::setAutoScale(bool state)
+{
+    this->autoScale = state;
+    if (this->autoScale)
+    {
+        this->autoScaleContents();
+    }
+}
+
+bool CoordinateScene::getAutoScale()
+{
+    return this->autoScale;
+}
+
+void CoordinateScene::autoScaleContents()
+{
+    if (this->items().size() == 0)
+    {
+        this->setPlane(
+            QPointF(-this->originalSize.width() / 2,
+                    -this->originalSize.height() / 2),
+            this->originalSize.width(),
+            this->originalSize.height()
+        );
+        this->zoomPercent = 100;
+        emit zoomChanged(100);
+        return;
+    }
+
+    QRectF boundingRect = this->findItemsBoundingRect();
+    QSizeF itemsSize = boundingRect.size();
+    if (3 * itemsSize.width() > 4 * itemsSize.height())
+    {
+        itemsSize.setHeight((3.0 / 4.0) * itemsSize.width());
+    }
+    else if (3 * itemsSize.width() < 4 * itemsSize.height())
+    {
+        itemsSize.setWidth((4.0 / 3.0) * itemsSize.height());
+    }
+    qreal zoom = 100.0 * this->originalSize.width() / itemsSize.width();
+
+    QPointF topLeft = boundingRect.center() - QPointF(itemsSize.width() * 0.6, itemsSize.height() * 0.6);
+    this->setPlane(topLeft, itemsSize.width() * 1.2, itemsSize.height() * 1.2);
+    this->zoomPercent = zoom;
+    emit zoomChanged(zoom);
+}
+
+QRectF CoordinateScene::findItemsBoundingRect()
+{
+    qreal top = INFINITY, bottom = -INFINITY, left = INFINITY, right = -INFINITY;
+    for (QGraphicsItem *item : this->items())
+    {
+        QRectF boundingRect = item->boundingRect();
+        top = std::min(top, boundingRect.top());
+        bottom = std::max(bottom, boundingRect.bottom());
+        left = std::min(left, boundingRect.left());
+        right = std::max(right, boundingRect.right());
+    }
+
+    return QRectF(left, top, right - left, bottom - top);
+}
+
 void CoordinateScene::setPointSelection(qsizetype idx, bool state)
 {
     if (idx < this->points.size())
     {
         this->points[idx]->setSelected(state);
     }
+}
+
+void CoordinateScene::removeItem(QGraphicsItem *item)
+{
+    QGraphicsScene::removeItem(item);
+    emit itemsChanged();
+}
+
+void CoordinateScene::addItem(QGraphicsItem *item)
+{
+    QGraphicsScene::addItem(item);
+    emit itemsChanged();
 }
 
 void CoordinateScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -511,7 +675,7 @@ void CoordinateScene::removeIntersectingPoint(QPointF clickedPoint)
     double pointSize = this->graphicsWindow.height() * 0.02 / this->cX;
     for (qsizetype i = 0; i < this->points.size(); i++)
     {
-        double curDistance = this->getDistance(this->toPlaneCoords(this->points[i]->boundingRect().center()), clickedPoint);
+        double curDistance = this->getDistance(this->points[i]->boundingRect().center(), clickedPoint);
         if (curDistance < pointSize && curDistance < minDistance)
         {
             minDistance = curDistance;
@@ -533,13 +697,18 @@ double CoordinateScene::getDistance(QPointF a, QPointF b)
     return QLineF(a, b).length();
 }
 
+QString CoordinateScene::printableAngle(qreal angle)
+{
+    QString degrees = QString::number(std::lround(angle * 1000.0) / 1000.0);
+    return degrees + "°";
+}
+
 void CoordinateScene::removeAllPoints(void)
 {
     for (qsizetype i = this->points.size() - 1; i > -1; i--)
     {
         this->removePoint(i);
     }
-    this->update();
 }
 
 void CoordinateScene::zoomAtPercent(double zoom)

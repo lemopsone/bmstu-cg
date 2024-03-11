@@ -6,6 +6,11 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QObject>
+#include "scenepoint.h"
+#include "sceneellipse.h"
+#include "scenerectangle.h"
+#include "sceneline.h"
+#include "scenetriangle.h"
 #include "myrectf.h"
 #include "mytrianglef.h"
 
@@ -39,41 +44,59 @@ public:
 
     void zoomAtPercent(double zoom);
 
-    void drawPoint(QPainter *painter, QPointF point);
-    void drawLine(QPainter *painter, QLineF line);
+    void drawPoint(QPainter *painter, QPointF point, QString text = QString());
+    void drawLine(QPainter *painter, QLineF line, bool showAngle = false);
     void drawMyRect(QPainter *painter, MyRectF rect);
     void drawMyTriangle(QPainter *painter, MyTriangleF triangle);
     void drawEllipse(QPainter *painter, QRectF ellipse);
+    void drawText(QPainter *painter, QPointF startingPos, QString text);
+    void drawText(QPainter *painter, QPointF startingPos, QSizeF size, QString text);
+    void drawLineAngle(QPainter *painter, QLineF line);
 
-    void addPoint(QGraphicsItem *point);
-    void removePoint(QGraphicsItem *point);
+    QList<ScenePoint *> getPoints(void);
+    void addPoint(ScenePoint *point);
+    void removePoint(ScenePoint *point);
     void removePoint(qsizetype idx);
 
-    void addRectangle(QGraphicsItem *rectangle);
-    void removeRectangle(QGraphicsItem *rectangle);
+    QList<SceneRectangle *> getRectangles(void);
+    void addRectangle(SceneRectangle *rectangle);
+    void removeRectangle(SceneRectangle *rectangle);
     void removeRectangle(qsizetype idx);
 
-    void addEllipse(QGraphicsItem *point);
-    void removeEllipse(QGraphicsItem *circle);
+    QList<SceneEllipse *> getEllipses(void);
+    void addEllipse(SceneEllipse *point);
+    void removeEllipse(SceneEllipse *circle);
     void removeEllipse(qsizetype idx);
 
-    void addLine(QGraphicsItem *line);
-    void removeLine(QGraphicsItem *line);
+    QList<SceneLine *> getLines(void);
+    void addLine(SceneLine *line);
+    void removeLine(SceneLine *line);
     void removeLine(qsizetype idx);
 
-    void addTriangle(QGraphicsItem *triangle);
-    void removeTriangle(QGraphicsItem *triangle);
+    QList<SceneTriangle *> getTriangles(void);
+    void addTriangle(SceneTriangle *triangle);
+    void removeTriangle(SceneTriangle *triangle);
     void removeTriangle(qsizetype idx);
 
     void setTransform(const QTransform transform);
     QTransform getTransform(void) const;
 
+    void setAutoScale(bool state);
+    bool getAutoScale(void);
+    void autoScaleContents(void);
+
     void setPointSelection(qsizetype idx, bool state);
+
+    void removeItem(QGraphicsItem *item);
+    void addItem(QGraphicsItem *item);
+    QRectF findItemsBoundingRect();
 signals:
     void zoomChanged(double value);
     void sceneClicked(QPointF point);
     void pointDeleted(ssize_t pointIndex);
     void mousePositionChanged(QPointF currentPos);
+    void taskSolutionFound(QRectF circle, QLineF line);
+    void itemsChanged(void);
 
 protected:
     // Переопределения методов QGraphicsScene
@@ -91,15 +114,16 @@ protected:
     bool isDragged = false;
     QSizeF originalSize;
     double zoomPercent;
+    bool autoScale;
     QTransform transform;
 
     // множество точек
-    QList<QGraphicsItem *> points;
+    QList<ScenePoint *> points;
 
-    QList<QGraphicsItem *> ellipses;
-    QList<QGraphicsItem *> lines;
-    QList<QGraphicsItem *> rectangles;
-    QList<QGraphicsItem *> triangles;
+    QList<SceneEllipse *> ellipses;
+    QList<SceneLine *> lines;
+    QList<SceneRectangle *> rectangles;
+    QList<SceneTriangle *> triangles;
 
     //  Приватные методы
     void computeCoefficients(void);
@@ -111,6 +135,7 @@ protected:
     void removeIntersectingPoint(QPointF point);
 
     double getDistance(QPointF a, QPointF b);
+    QString printableAngle(qreal angle);
 
 };
 
