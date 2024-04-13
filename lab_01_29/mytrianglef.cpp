@@ -1,10 +1,10 @@
 #include "mytrianglef.h"
+
 #include <QDebug>
 
 MyTriangleF::MyTriangleF()
 {
-    for (short i = 0; i < 3; i++)
-    {
+    for (short i = 0; i < 3; i++) {
         this->points.push_back(QPointF());
     }
 }
@@ -24,22 +24,18 @@ bool MyTriangleF::isValid()
     qreal a = vecA.length(), b = vecB.length(), c = vecC.length();
 
     // Одна из длин сторон равна нулю
-    if (a * b * c == 0.0)
-    {
+    if (a * b * c == 0.0) {
         return false;
     }
 
     /*
-     * Неравенство треугольника:
-     * AB <= BC + AC для любых A, B, C
-     * Знак равенства (AB = BC + AC) указывает на
-     * то, что точка B лежит строго между A и C,
-     * т. е. треугольник - вырожденный
-     */
-    if (a < b + c &&
-        b < a + c &&
-        c < a + b)
-    {
+   * Неравенство треугольника:
+   * AB <= BC + AC для любых A, B, C
+   * Знак равенства (AB = BC + AC) указывает на
+   * то, что точка B лежит строго между A и C,
+   * т. е. треугольник - вырожденный
+   */
+    if (a < b + c && b < a + c && c < a + b) {
         return true;
     }
 
@@ -49,13 +45,13 @@ bool MyTriangleF::isValid()
 QPointF MyTriangleF::bisectIntersection()
 {
     /*
-     * A - points[0]
-     * B - points[1]
-     * C - points[2]
-     * ~a = ~BC
-     * ~b = ~AC
-     * ~c = ~AB
-     */
+   * A - points[0]
+   * B - points[1]
+   * C - points[2]
+   * ~a = ~BC
+   * ~b = ~AC
+   * ~c = ~AB
+   */
     QVector2D vecA = QVector2D(this->points[2] - this->points[1]);
     QVector2D vecB = QVector2D(this->points[2] - this->points[0]);
     QVector2D vecC = QVector2D(this->points[1] - this->points[0]);

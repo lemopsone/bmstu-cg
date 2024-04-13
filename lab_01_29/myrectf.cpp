@@ -2,8 +2,7 @@
 
 MyRectF::MyRectF()
 {
-    for (short i = 0; i < 4; i++)
-    {
+    for (short i = 0; i < 4; i++) {
         this->points.push_back(QPointF());
     }
 }
@@ -26,12 +25,9 @@ MyRectF::MyRectF(QPointF p1, QPointF p2, QPointF p3, QPointF p4)
 
 bool MyRectF::isValid()
 {
-    for (size_t i = 0; i < 4; i++)
-    {
-        for (size_t j = i + 1; j < 4; j++)
-        {
-            if (points[i] == points[j])
-            {
+    for (size_t i = 0; i < 4; i++) {
+        for (size_t j = i + 1; j < 4; j++) {
+            if (points[i] == points[j]) {
                 return false;
             }
         }
@@ -49,11 +45,8 @@ bool MyRectF::isValid()
     qreal dotCD = QVector2D::dotProduct(vecC, vecD);
     qreal dotAD = QVector2D::dotProduct(vecD, vecA);
 
-    if (qAbs(dotAB) < tolerance &&
-        qAbs(dotBC) < tolerance &&
-        qAbs(dotCD) < tolerance &&
-        qAbs(dotAD) < tolerance)
-    {
+    if (qAbs(dotAB) < tolerance && qAbs(dotBC) < tolerance && qAbs(dotCD) < tolerance
+        && qAbs(dotAD) < tolerance) {
         return true;
     }
     return false;

@@ -4,21 +4,17 @@ MyShapeF::MyShapeF() {}
 
 QRectF MyShapeF::boundingRect() const
 {
-    return QRectF(
-        this->left(),
-        this->top(),
-        this->right() - this->left(),
-        this->bottom() - this->top()
-        );
+    return QRectF(this->left(),
+                  this->top(),
+                  this->right() - this->left(),
+                  this->bottom() - this->top());
 }
 
 qreal MyShapeF::top() const
 {
     qreal min = INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.y() < min)
-        {
+    for (auto point : this->points) {
+        if (point.y() < min) {
             min = point.y();
         }
     }
@@ -28,10 +24,8 @@ qreal MyShapeF::top() const
 qreal MyShapeF::bottom() const
 {
     qreal max = -INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.y() > max)
-        {
+    for (auto point : this->points) {
+        if (point.y() > max) {
             max = point.y();
         }
     }
@@ -41,10 +35,8 @@ qreal MyShapeF::bottom() const
 qreal MyShapeF::left() const
 {
     qreal min = INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.x() < min)
-        {
+    for (auto point : this->points) {
+        if (point.x() < min) {
             min = point.x();
         }
     }
@@ -54,10 +46,8 @@ qreal MyShapeF::left() const
 qreal MyShapeF::right() const
 {
     qreal max = -INFINITY;
-    for (auto point : this->points)
-    {
-        if (point.x() > max)
-        {
+    for (auto point : this->points) {
+        if (point.x() > max) {
             max = point.x();
         }
     }

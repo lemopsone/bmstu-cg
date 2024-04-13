@@ -1,13 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QItemSelection>
+#include <QMainWindow>
 
-#include "taskpopup.h"
+#include "addrecorddialog.h"
 #include "coordinatescene.h"
 #include "pointtableviewmodel.h"
-#include "addrecorddialog.h"
+#include "taskpopup.h"
 #include "test.h"
 
 QT_BEGIN_NAMESPACE
@@ -44,7 +44,7 @@ public slots:
     void onAddRecordButtonClicked();
     void onClearAllRecordsClicked();
     void onTablePointAdded(QPointF point);
-    void onSelectionChanged(const QItemSelection&, const QItemSelection&);
+    void onSelectionChanged(const QItemSelection &, const QItemSelection &);
     void onDeleteButtonClicked();
     void onRectangleAcceptButtonClicked();
     void onRectangleResetButtonClicked();
@@ -58,8 +58,10 @@ private:
     void addSolution(double minAngle, QLineF line, MyTriangleF triangle);
     void clearSolution(void);
     void populateTestData(Test);
-    qreal findSolution(const MyRectF &rect, const QList<ScenePoint *>& points,
-                       QLineF &resultLine, MyTriangleF &resultTriangle);
+    qreal findSolution(const MyRectF &rect,
+                       const QList<ScenePoint *> &points,
+                       QLineF &resultLine,
+                       MyTriangleF &resultTriangle);
 };
 
 #endif // MAINWINDOW_H

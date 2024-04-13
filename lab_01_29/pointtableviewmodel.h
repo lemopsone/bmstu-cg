@@ -2,6 +2,7 @@
 #define POINTTABLEVIEWMODEL_H
 
 #include <QAbstractListModel>
+
 #include "pointrecord.h"
 
 class PointTableViewModel : public QAbstractListModel

@@ -1,11 +1,12 @@
 #include "mainwindow.h"
-#include "scenepoint.h"
-#include "scenetriangle.h"
-#include "scenerectangle.h"
+
+#include "mytrianglef.h"
 #include "sceneellipse.h"
 #include "sceneline.h"
+#include "scenepoint.h"
+#include "scenerectangle.h"
+#include "scenetriangle.h"
 #include "ui_mainwindow.h"
-#include "mytrianglef.h"
 
 MainWindow::MainWindow(Test test, QWidget *parent)
     : QMainWindow(parent)
@@ -15,7 +16,6 @@ MainWindow::MainWindow(Test test, QWidget *parent)
 
     // Сборка всплывающего окна с заданием
     this->initTaskPopUp();
-
 
     // Сборка сцены
     this->initGraphicsScene();
@@ -27,8 +27,7 @@ MainWindow::MainWindow(Test test, QWidget *parent)
     this->connectAll();
 
     // Если есть активный тест, добавить все точки и построить прямоугольник
-    if (!test.isEmpty())
-    {
+    if (!test.isEmpty()) {
         this->populateTestData(test);
     }
 }
@@ -51,10 +50,15 @@ void MainWindow::initTaskPopUp()
 void MainWindow::initGraphicsScene()
 {
     QRectF viewGeometry = this->ui->graphicsView->geometry();
-    QRectF graphicsWindowCoordinates = QRectF(-viewGeometry.width() / 2, -viewGeometry.height() / 2, viewGeometry.width(), viewGeometry.height());
+    QRectF graphicsWindowCoordinates = QRectF(-viewGeometry.width() / 2,
+                                              -viewGeometry.height() / 2,
+                                              viewGeometry.width(),
+                                              viewGeometry.height());
     QRectF planeCoordinates = QRectF(-6, -4.5, 12, 9);
 
-    this->scene = new CoordinateScene(graphicsWindowCoordinates, planeCoordinates, this->ui->showCoordinatesRadio->isChecked());
+    this->scene = new CoordinateScene(graphicsWindowCoordinates,
+                                      planeCoordinates,
+                                      this->ui->showCoordinatesRadio->isChecked());
     this->ui->graphicsView->setScene(this->scene);
     this->ui->graphicsView->scale(1, -1);
     this->ui->graphicsView->viewport()->setCursor(Qt::ArrowCursor);
@@ -81,40 +85,78 @@ void MainWindow::initAddRecordDialog()
 
 void MainWindow::connectAll()
 {
-    this->connect(this->ui->showTaskButton, SIGNAL(clicked()),
-                this, SLOT(showTaskPopUp()));
-    this->connect(this->ui->showCoordinatesRadio, SIGNAL(toggled(bool)),
-                this, SLOT(onShowCoordinatesRadioToggle(bool)));
-    this->connect(this->ui->autoScaleRadio, SIGNAL(toggled(bool)),
-                  this, SLOT(onAutoScaleRadioToggle(bool)));
-    this->connect(this->ui->sizeInput, SIGNAL(editingFinished()),
-                this, SLOT(onSizeInputEditFinished()));
-    this->connect(this->scene, SIGNAL(zoomChanged(double)),
-                this, SLOT(onSceneZoomChanged(double)));
-    this->connect(this->scene, SIGNAL(sceneClicked(QPointF)),
-                this, SLOT(onSceneClicked(QPointF)));
-    this->connect(this->scene, SIGNAL(mousePositionChanged(QPointF)),
-                this, SLOT(onSceneMousePositionChanged(QPointF)));
-    this->connect(this->scene, SIGNAL(pointDeleted(ssize_t)),
-                this, SLOT(onScenePointDeleted(ssize_t)));
-    this->connect(this->ui->addRecordButton, SIGNAL(clicked()),
-                this, SLOT(onAddRecordButtonClicked()));
-    this->connect(this->ui->clearRecordsButton, SIGNAL(clicked()),
-                this, SLOT(onClearAllRecordsClicked()));
-    this->connect(this->addRecordDialog, SIGNAL(validPointAdded(QPointF)),
-                this, SLOT(onTablePointAdded(QPointF)));
-    this->connect(this->ui->deleteRecordButton, SIGNAL(clicked()),
-                this, SLOT(onDeleteButtonClicked()));
-    this->connect(this->ui->pointsTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-                this, SLOT(onSelectionChanged(QItemSelection,QItemSelection)));
-    this->connect(this->ui->rectangleAcceptButton, SIGNAL(clicked()),
-                this, SLOT(onRectangleAcceptButtonClicked()));
-    this->connect(this->ui->rectangleResetButton, SIGNAL(clicked()),
-                  this, SLOT(onRectangleResetButtonClicked()));
-    this->connect(this->ui->solveTaskButton, SIGNAL(clicked()),
-                  this, SLOT(onSolveTaskButtonClicked()));
-    this->connect(this->scene, SIGNAL(itemsChanged()),
-                  this, SLOT(onSceneChanged()));
+    this->connect(this->ui->showTaskButton, SIGNAL(clicked()), this, SLOT(showTaskPopUp()));
+    this->connect(this->ui->showCoordinatesRadio,
+                  SIGNAL(toggled(bool)),
+                  this,
+                  SLOT(onShowCoordinatesRadioToggle(bool)));
+
+    this->connect(this->ui->autoScaleRadio,
+                  SIGNAL(toggled(bool)),
+                  this,
+                  SLOT(onAutoScaleRadioToggle(bool)));
+
+    this->connect(this->ui->sizeInput,
+                  SIGNAL(editingFinished()),
+                  this,
+                  SLOT(onSizeInputEditFinished()));
+
+    this->connect(this->scene, SIGNAL(zoomChanged(double)), this, SLOT(onSceneZoomChanged(double)));
+
+    this->connect(this->scene, SIGNAL(sceneClicked(QPointF)), this, SLOT(onSceneClicked(QPointF)));
+
+    this->connect(this->scene,
+                  SIGNAL(mousePositionChanged(QPointF)),
+                  this,
+                  SLOT(onSceneMousePositionChanged(QPointF)));
+
+    this->connect(this->scene,
+                  SIGNAL(pointDeleted(ssize_t)),
+                  this,
+                  SLOT(onScenePointDeleted(ssize_t)));
+
+    this->connect(this->ui->addRecordButton,
+                  SIGNAL(clicked()),
+                  this,
+                  SLOT(onAddRecordButtonClicked()));
+
+    this->connect(this->ui->clearRecordsButton,
+                  SIGNAL(clicked()),
+                  this,
+                  SLOT(onClearAllRecordsClicked()));
+
+    this->connect(this->addRecordDialog,
+                  SIGNAL(validPointAdded(QPointF)),
+                  this,
+                  SLOT(onTablePointAdded(QPointF)));
+
+    this->connect(this->ui->deleteRecordButton,
+                  SIGNAL(clicked()),
+                  this,
+                  SLOT(onDeleteButtonClicked()));
+
+    // clang-format off
+    this->connect(this->ui->pointsTableView->selectionModel(),
+                  SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+                  this,
+                  SLOT(onSelectionChanged(QItemSelection,QItemSelection)));
+    // clang-format on
+    this->connect(this->ui->rectangleAcceptButton,
+                  SIGNAL(clicked()),
+                  this,
+                  SLOT(onRectangleAcceptButtonClicked()));
+
+    this->connect(this->ui->rectangleResetButton,
+                  SIGNAL(clicked()),
+                  this,
+                  SLOT(onRectangleResetButtonClicked()));
+
+    this->connect(this->ui->solveTaskButton,
+                  SIGNAL(clicked()),
+                  this,
+                  SLOT(onSolveTaskButtonClicked()));
+
+    this->connect(this->scene, SIGNAL(itemsChanged()), this, SLOT(onSceneChanged()));
 
     this->setAttribute(Qt::WA_DeleteOnClose);
 }
@@ -156,8 +198,10 @@ void MainWindow::onSceneClicked(QPointF point)
 
 void MainWindow::onSceneMousePositionChanged(QPointF currentPos)
 {
-    this->ui->cursorPositionX->setText(QString::number(std::round(currentPos.x() * 1000.0) / 1000.0));
-    this->ui->cursorPositionY->setText(QString::number(std::round(currentPos.y() * 1000.0) / 1000.0));
+    this->ui->cursorPositionX->setText(
+        QString::number(std::round(currentPos.x() * 1000.0) / 1000.0));
+    this->ui->cursorPositionY->setText(
+        QString::number(std::round(currentPos.y() * 1000.0) / 1000.0));
 }
 
 void MainWindow::onScenePointDeleted(ssize_t pointIndex)
@@ -185,17 +229,13 @@ void MainWindow::onTablePointAdded(QPointF point)
 
 void MainWindow::onSelectionChanged(const QItemSelection &selected, const QItemSelection &unselected)
 {
-    for (auto index : selected.indexes())
-    {
-        if (index.row() < this->scene->items().count())
-        {
+    for (auto index : selected.indexes()) {
+        if (index.row() < this->scene->items().count()) {
             this->scene->setPointSelection(index.row(), true);
         }
     }
-    for (auto index : unselected.indexes())
-    {
-        if (index.row() < this->scene->items().count())
-        {
+    for (auto index : unselected.indexes()) {
+        if (index.row() < this->scene->items().count()) {
             this->scene->setPointSelection(index.row(), false);
         }
     }
@@ -205,26 +245,23 @@ void MainWindow::onSelectionChanged(const QItemSelection &selected, const QItemS
 void MainWindow::onDeleteButtonClicked()
 {
     QList points = this->scene->selectedItems();
-    for (auto point_ : points)
-    {
+    for (auto point_ : points) {
         ScenePoint *point = qgraphicsitem_cast<ScenePoint *>(point_);
-        if (point && this->scene->items().contains(point))
-        {
+        if (point && this->scene->items().contains(point)) {
             this->scene->removePoint(point);
         }
     }
 
     /*
-     * QModelIndexList хранит в себе индексы в том порядке, в котором записи в таблице были выделены
-     * таким образом, если выделить сначала 3 запись, потом 1, потом 2, получим QModelIndexList({3}, {2}, {1})
-     * чтобы нормализовать входные данные, необходимо отсортировать QList по убыванию
-     */
+   * QModelIndexList хранит в себе индексы в том порядке, в котором записи в
+   * таблице были выделены таким образом, если выделить сначала 3 запись, потом
+   * 1, потом 2, получим QModelIndexList({3}, {2}, {1}) чтобы нормализовать
+   * входные данные, необходимо отсортировать QList по убыванию
+   */
     QModelIndexList selectedRowsIndexes = this->ui->pointsTableView->selectionModel()->selectedRows();
     std::sort(selectedRowsIndexes.rbegin(), selectedRowsIndexes.rend());
-    for (auto index : selectedRowsIndexes)
-    {
-        if (this->pointTableModel->rowCount() > index.row())
-        {
+    for (auto index : selectedRowsIndexes) {
+        if (this->pointTableModel->rowCount() > index.row()) {
             this->pointTableModel->deleteRow(index.row());
         }
     }
@@ -233,12 +270,10 @@ void MainWindow::onDeleteButtonClicked()
     this->clearSolution();
 }
 
-
 void MainWindow::onRectangleAcceptButtonClicked()
 {
     QPointF points[4];
-    for (qsizetype i = 0; i < this->ui->rectangleTableWidget->rowCount(); i++)
-    {
+    for (qsizetype i = 0; i < this->ui->rectangleTableWidget->rowCount(); i++) {
         QTableWidgetItem *xptr = this->ui->rectangleTableWidget->item(i, 0);
         QTableWidgetItem *yptr = this->ui->rectangleTableWidget->item(i, 1);
         bool xValid = false, yValid = false;
@@ -248,41 +283,33 @@ void MainWindow::onRectangleAcceptButtonClicked()
         y = std::round(y * 1000.0) / 1000.0;
         xptr->setData(Qt::DisplayRole, QString::number(x));
         yptr->setData(Qt::DisplayRole, QString::number(y));
-        if (!xValid || !yValid)
-        {
+        if (!xValid || !yValid) {
             this->ui->rectangleActionStatusLabel->setText(
-                QString("Ошибка: некорректный формат входных данных")
-            );
+                QString("Ошибка: некорректный формат входных данных"));
             return;
         }
         points[i] = QPointF(x, y);
     }
     MyRectF newRect = MyRectF(points);
-    if (!newRect.isValid())
-    {
+    if (!newRect.isValid()) {
         this->ui->rectangleActionStatusLabel->setText(
-            QString("Ошибка: указанные точки не образуют прямоугольник")
-        );
+            QString("Ошибка: указанные точки не образуют прямоугольник"));
         return;
     }
-    if (this->scene->getRectangles().size() != 0)
-    {
-        this->scene->removeRectangle((qsizetype)0);
+    if (this->scene->getRectangles().size() != 0) {
+        this->scene->removeRectangle((qsizetype) 0);
     }
     this->ui->rectangleActionStatusLabel->setText(QString());
     this->scene->addRectangle(new SceneRectangle(newRect, this->scene));
     this->clearSolution();
 }
 
-
 void MainWindow::onRectangleResetButtonClicked()
 {
-    if (this->scene->getRectangles().size() != 0)
-    {
-        this->scene->removeRectangle((qsizetype)0);
+    if (this->scene->getRectangles().size() != 0) {
+        this->scene->removeRectangle((qsizetype) 0);
     }
-    for (qsizetype i = 0; i < this->ui->rectangleTableWidget->rowCount(); i++)
-    {
+    for (qsizetype i = 0; i < this->ui->rectangleTableWidget->rowCount(); i++) {
         QTableWidgetItem *xptr = this->ui->rectangleTableWidget->item(i, 0);
         QTableWidgetItem *yptr = this->ui->rectangleTableWidget->item(i, 1);
         xptr->setData(Qt::DisplayRole, QString("0.000"));
@@ -298,14 +325,12 @@ void MainWindow::onSolveTaskButtonClicked()
     QList<ScenePoint *> points = this->scene->getPoints();
     QLineF resultLine;
     MyTriangleF resultTriangle;
-    if (rectangles.size() == 0 || points.size() < 3)
-    {
+    if (rectangles.size() == 0 || points.size() < 3) {
         return;
     }
     MyRectF rectangle = rectangles[0]->rect;
     qreal minAngle = findSolution(rectangle, points, resultLine, resultTriangle);
-    if (minAngle != 360)
-    {
+    if (minAngle != 360) {
         this->addSolution(minAngle, resultLine, resultTriangle);
     }
 }
@@ -317,8 +342,7 @@ void MainWindow::onAutoScaleRadioToggle(bool state)
 
 void MainWindow::onSceneChanged()
 {
-    if (this->ui->autoScaleRadio->isChecked())
-    {
+    if (this->ui->autoScaleRadio->isChecked()) {
         this->scene->autoScaleContents();
     }
 }
@@ -334,16 +358,21 @@ void MainWindow::addSolution(double minAngle, QLineF line, MyTriangleF triangle)
 
     QList<QPointF> trianglePoints = triangle.getPoints();
     QString solutionText = QString("Минимальный найденный угол - %1\n"
-                                    "Треугольник с координатами (%2; %3), (%4; %5), (%6; %7)\n"
-                                    "Центр вписанной окружности I - (%8; %9), радиус - %10\n"
-                                    "Центр прямоугольника - (%11; %12)"
-                                   ).arg(minAngle, 0, 'f', 3)
-                                    .arg(trianglePoints[0].x()).arg(trianglePoints[0].y())
-                                    .arg(trianglePoints[1].x()).arg(trianglePoints[1].y())
-                                    .arg(trianglePoints[2].x()).arg(trianglePoints[2].y())
-                                    .arg(circleCenter.x(), 0, 'f', 3).arg(circleCenter.y(), 0, 'f', 3)
-                                    .arg(radius, 0, 'f', 3)
-                                    .arg(line.p1().x()).arg(line.p1().y());
+                                   "Треугольник с координатами (%2; %3), (%4; %5), (%6; %7)\n"
+                                   "Центр вписанной окружности I - (%8; %9), радиус - %10\n"
+                                   "Центр прямоугольника - (%11; %12)")
+                               .arg(minAngle, 0, 'f', 3)
+                               .arg(trianglePoints[0].x())
+                               .arg(trianglePoints[0].y())
+                               .arg(trianglePoints[1].x())
+                               .arg(trianglePoints[1].y())
+                               .arg(trianglePoints[2].x())
+                               .arg(trianglePoints[2].y())
+                               .arg(circleCenter.x(), 0, 'f', 3)
+                               .arg(circleCenter.y(), 0, 'f', 3)
+                               .arg(radius, 0, 'f', 3)
+                               .arg(line.p1().x())
+                               .arg(line.p1().y());
     this->ui->solutionTextEdit->setText(solutionText);
 }
 
@@ -353,16 +382,13 @@ void MainWindow::clearSolution()
     QList<SceneEllipse *> ellipses = this->scene->getEllipses();
     QList<SceneTriangle *> triangles = this->scene->getTriangles();
 
-    for (auto line : lines)
-    {
+    for (auto line : lines) {
         this->scene->removeLine(line);
     }
-    for (auto ellipse : ellipses)
-    {
+    for (auto ellipse : ellipses) {
         this->scene->removeEllipse(ellipse);
     }
-    for (auto triangle : triangles)
-    {
+    for (auto triangle : triangles) {
         this->scene->removeTriangle(triangle);
     }
 
@@ -373,15 +399,13 @@ void MainWindow::clearSolution()
 void MainWindow::populateTestData(Test test)
 {
     this->setWindowTitle(test.name());
-    for (const auto& point : test.points())
-    {
+    for (const auto &point : test.points()) {
         this->onTablePointAdded(point);
     }
 
     QTableWidget *rectTable = this->ui->rectangleTableWidget;
     QList<QPointF> points = test.rect().getPoints();
-    for (qsizetype i = 0; i < 4; i++)
-    {
+    for (qsizetype i = 0; i < 4; i++) {
         QPointF point = points.at(i);
         QTableWidgetItem *xItem = rectTable->item(i, 0);
         QTableWidgetItem *yItem = rectTable->item(i, 1);
@@ -392,23 +416,22 @@ void MainWindow::populateTestData(Test test)
     this->onSolveTaskButtonClicked();
 }
 
-qreal MainWindow::findSolution(const MyRectF &rect, const QList<ScenePoint *> &points, QLineF &resultLine, MyTriangleF &resultTriangle)
+qreal MainWindow::findSolution(const MyRectF &rect,
+                               const QList<ScenePoint *> &points,
+                               QLineF &resultLine,
+                               MyTriangleF &resultTriangle)
 {
     qreal minAngle = 360;
     QPointF rectCenter = rect.center();
 
-    for (qsizetype i = 0; i < points.size(); i++)
-    {
+    for (qsizetype i = 0; i < points.size(); i++) {
         QPointF a = points[i]->coords;
-        for (qsizetype j = i + 1; j < points.size(); j++)
-        {
+        for (qsizetype j = i + 1; j < points.size(); j++) {
             QPointF b = points[j]->coords;
-            for (qsizetype k = j + 1; k < points.size(); k++)
-            {
+            for (qsizetype k = j + 1; k < points.size(); k++) {
                 QPointF c = points[k]->coords;
                 MyTriangleF triangle = MyTriangleF(a, b, c);
-                if (!triangle.isValid())
-                {
+                if (!triangle.isValid()) {
                     continue;
                 }
                 QPointF bisectIntersection = triangle.bisectIntersection();
@@ -417,8 +440,7 @@ qreal MainWindow::findSolution(const MyRectF &rect, const QList<ScenePoint *> &p
                 qreal angle = std::abs(line.angle());
                 angle = std::min(angle, 360 - angle);
 
-                if (angle < minAngle)
-                {
+                if (angle < minAngle) {
                     minAngle = angle;
                     resultLine = line;
                     resultTriangle = triangle;
@@ -428,4 +450,3 @@ qreal MainWindow::findSolution(const MyRectF &rect, const QList<ScenePoint *> &p
     }
     return minAngle;
 }
-

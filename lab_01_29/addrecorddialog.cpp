@@ -1,4 +1,5 @@
 #include "addrecorddialog.h"
+
 #include "ui_addrecorddialog.h"
 
 AddRecordDialog::AddRecordDialog(QWidget *parent)
@@ -7,10 +8,8 @@ AddRecordDialog::AddRecordDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    this->connect(this->ui->cancelButton, SIGNAL(clicked()),
-            this, SLOT(onCancelClicked()));
-    this->connect(this->ui->addRecordButton, SIGNAL(clicked()),
-            this, SLOT(onAddClicked()));
+    this->connect(this->ui->cancelButton, SIGNAL(clicked()), this, SLOT(onCancelClicked()));
+    this->connect(this->ui->addRecordButton, SIGNAL(clicked()), this, SLOT(onAddClicked()));
 }
 
 AddRecordDialog::~AddRecordDialog()
@@ -30,12 +29,9 @@ void AddRecordDialog::onAddClicked()
     x = this->ui->inputX->text().toDouble(&validX);
     y = this->ui->inputY->text().toDouble(&validY);
 
-    if (!validX || !validY)
-    {
+    if (!validX || !validY) {
         this->ui->exceptionLabel->setText(QString("Некорректные координаты"));
-    }
-    else
-    {
+    } else {
         QPointF point = QPointF(x, y);
         emit validPointAdded(point);
         this->ui->exceptionLabel->setText(QString());

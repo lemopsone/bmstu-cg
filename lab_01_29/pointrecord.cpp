@@ -56,7 +56,6 @@ void PointRecord::setY(const qreal y)
     this->point.setY(y);
 }
 
-
 QString PointRecord::serializePoint(QPointF point)
 {
     return QString("(%1, %2)").arg(point.x()).arg(point.y());

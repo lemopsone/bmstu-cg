@@ -8,36 +8,28 @@ PointTableViewModel::PointTableViewModel(QObject *parent)
 
 QVariant PointTableViewModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (role != Qt::DisplayRole)
-    {
+    if (role != Qt::DisplayRole) {
         return QVariant();
     }
 
-    if (orientation == Qt::Horizontal)
-    {
-        if (section == 0)
-        {
+    if (orientation == Qt::Horizontal) {
+        if (section == 0) {
             return QString("x");
-        }
-        else if (section == 1)
-        {
+        } else if (section == 1) {
             return QString("y");
-        }
-        else
-        {
+        } else {
             return QVariant();
         }
-    }
-    else
-    {
+    } else {
         return QString("%1").arg(section);
     }
 }
 
 int PointTableViewModel::rowCount(const QModelIndex &parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
+    // For list models only the root node (an invalid parent) should return the
+    // list's size. For all other (valid) parents, rowCount() should return 0 so
+    // that it does not become a tree model.
     if (parent.isValid())
         return 0;
     return values->count();
@@ -45,26 +37,22 @@ int PointTableViewModel::rowCount(const QModelIndex &parent) const
 
 int PointTableViewModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return 2;
 }
 
 QVariant PointTableViewModel::data(const QModelIndex &index, int role) const
 {
     QVariant value = QVariant();
-    if (!index.isValid())
-    {
+    if (!index.isValid()) {
         return value;
     }
 
-    if (role == Qt::DisplayRole)
-    {
-        //std::cout << "column no: " << index.column() << std::endl;
-        if (index.column() == 0)
-        {
+    if (role == Qt::DisplayRole) {
+        // std::cout << "column no: " << index.column() << std::endl;
+        if (index.column() == 0) {
             value = this->values->at(index.row()).getX();
-        }
-        else if (index.column() == 1)
-        {
+        } else if (index.column() == 1) {
             value = this->values->at(index.row()).getY();
         }
     }

@@ -38,16 +38,13 @@ QDebug operator<<(QDebug stream, const Test &test)
 {
     stream << "Текущий тест: " << test.name() << Qt::endl;
     stream << "\tПрямоугольник:\n";
-    for (auto point : test.rect().getPoints())
-    {
+    for (auto point : test.rect().getPoints()) {
         stream << "\t\t" << "(" << point.x() << "; " << point.y() << ")" << Qt::endl;
     }
     stream << Qt::endl << "\tТочки на плоскости:" << Qt::endl;
-    for (auto point : test.points())
-    {
+    for (auto point : test.points()) {
         stream << "\t\t" << "(" << point.x() << "; " << point.y() << ")" << Qt::endl;
     }
 
     return stream;
 }
-

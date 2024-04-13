@@ -1,10 +1,10 @@
 #ifndef MYSHAPEF_H
 #define MYSHAPEF_H
 
+#include <QList>
 #include <QObject>
 #include <QPointF>
 #include <QRectF>
-#include <QList>
 #include <QVector2D>
 
 class MyShapeF
@@ -23,6 +23,7 @@ public:
     virtual bool isValid() = 0;
     virtual qreal area() = 0;
     virtual qreal perimeter() = 0;
+
 protected:
     QList<QPointF> points;
 };

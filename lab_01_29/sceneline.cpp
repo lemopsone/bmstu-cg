@@ -1,7 +1,9 @@
 #include "sceneline.h"
+
 #include "coordinatescene.h"
 
-SceneLine::SceneLine(QLineF line_, CoordinateScene *scene_) : SceneObject(scene_)
+SceneLine::SceneLine(QLineF line_, CoordinateScene *scene_)
+    : SceneObject(scene_)
 {
     this->line = line_;
     this->setPos(this->line.center());
@@ -17,8 +19,7 @@ void SceneLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    if (!this->scene->getGraphicsWindow().intersects(this->boundingRect()))
-    {
+    if (!this->scene->getGraphicsWindow().intersects(this->boundingRect())) {
         return;
     }
     painter->setTransform(this->scene->getTransform());
@@ -27,5 +28,3 @@ void SceneLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(pen);
     this->scene->drawLine(painter, this->line, true);
 }
-
-

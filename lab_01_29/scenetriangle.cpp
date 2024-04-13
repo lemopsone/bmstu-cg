@@ -1,7 +1,9 @@
 #include "scenetriangle.h"
+
 #include "coordinatescene.h"
 
-SceneTriangle::SceneTriangle(MyTriangleF triangle_, CoordinateScene *scene_) : SceneObject(scene_)
+SceneTriangle::SceneTriangle(MyTriangleF triangle_, CoordinateScene *scene_)
+    : SceneObject(scene_)
 {
     this->triangle = triangle_;
     this->setZValue(1);
@@ -17,8 +19,7 @@ void SceneTriangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     Q_UNUSED(option);
     Q_UNUSED(widget);
     QRectF boundingRect = this->boundingRect();
-    if (!this->scene->getGraphicsWindow().intersects(boundingRect))
-    {
+    if (!this->scene->getGraphicsWindow().intersects(boundingRect)) {
         return;
     }
     painter->setTransform(this->scene->getTransform());
@@ -30,12 +31,10 @@ void SceneTriangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
     QPointF bisectIntersection = this->triangle.bisectIntersection();
     this->scene->drawMyTriangle(painter, this->triangle);
 
-
     pen.setWidth(1);
     pen.setColor(Qt::red);
     painter->setPen(pen);
-    for (qsizetype i = 0; i < 3; i++)
-    {
+    for (qsizetype i = 0; i < 3; i++) {
         this->scene->drawLine(painter, QLineF(this->triangle.getPoints().at(i), bisectIntersection));
     }
     this->scene->drawPoint(painter, bisectIntersection, QString("I"));

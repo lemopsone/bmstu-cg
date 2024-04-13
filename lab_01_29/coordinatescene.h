@@ -1,24 +1,28 @@
 #ifndef COORDINATESCENE_H
 #define COORDINATESCENE_H
 
-#include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-#include <QPainter>
 #include <QObject>
-#include "scenepoint.h"
-#include "sceneellipse.h"
-#include "scenerectangle.h"
-#include "sceneline.h"
-#include "scenetriangle.h"
+#include <QPainter>
+
 #include "myrectf.h"
 #include "mytrianglef.h"
+#include "sceneellipse.h"
+#include "sceneline.h"
+#include "scenepoint.h"
+#include "scenerectangle.h"
+#include "scenetriangle.h"
 
 class CoordinateScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit CoordinateScene(QRectF windowRect, QRectF planeRect, bool state, QObject *parent = nullptr);
+    explicit CoordinateScene(QRectF windowRect,
+                             QRectF planeRect,
+                             bool state,
+                             QObject *parent = nullptr);
 
     void setGridVisibility(bool value);
     bool gridIsVisible(void);
@@ -136,10 +140,6 @@ protected:
 
     double getDistance(QPointF a, QPointF b);
     QString printableAngle(qreal angle);
-
 };
-
-
-
 
 #endif // COORDINATESCENE_H

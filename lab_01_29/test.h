@@ -1,9 +1,10 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include <QString>
-#include <QList>
 #include <QDebug>
+#include <QList>
+#include <QString>
+
 #include "myrectf.h"
 
 class Test
@@ -15,6 +16,7 @@ public:
     QList<QPointF> points() const;
     MyRectF rect() const;
     bool isEmpty();
+
 private:
     QString name_;
     QList<QPointF> points_;

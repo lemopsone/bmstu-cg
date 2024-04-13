@@ -5,8 +5,7 @@ TestParser::TestParser() {}
 bool TestParser::loadFromFile(QString filepath)
 {
     QFile file(filepath);
-    if (!file.open(QIODevice::ReadOnly))
-    {
+    if (!file.open(QIODevice::ReadOnly)) {
         qDebug() << "Failed to open the file:" << file.errorString();
         return false;
     }
@@ -27,10 +26,8 @@ QList<Test> TestParser::tests()
     QList<Test> tests;
 
     QJsonArray data = this->doc.array();
-    for (const auto& jsonValue : data)
-    {
-        if (jsonValue.isObject())
-        {
+    for (const auto& jsonValue : data) {
+        if (jsonValue.isObject()) {
             QJsonObject testJson = jsonValue.toObject();
             // name
             QString name = testJson["name"].toString();
@@ -38,8 +35,7 @@ QList<Test> TestParser::tests()
             // rectangle
             QJsonArray rectangle = testJson["rectangle"].toArray();
             QPointF rectPoints[4];
-            for (qsizetype i = 0; i < 4; i++)
-            {
+            for (qsizetype i = 0; i < 4; i++) {
                 QJsonArray point = rectangle[i].toArray();
                 double x = point.at(0).toDouble();
                 double y = point.at(1).toDouble();
@@ -50,8 +46,7 @@ QList<Test> TestParser::tests()
             // points
             QList<QPointF> points;
             QJsonArray pointsArray = testJson["points"].toArray();
-            for (const auto& pointData : pointsArray)
-            {
+            for (const auto& pointData : pointsArray) {
                 QJsonArray point = pointData.toArray();
                 double x = point.at(0).toDouble();
                 double y = point.at(1).toDouble();
