@@ -1,0 +1,6 @@
+/build/
+.DS_Store
+.idea
+lab_01_29.pro.user
+/cmake-build-debug/
+report-*-new.txt
