@@ -41,7 +41,6 @@ void House::processAction(Action action, bool push)
 
 void House::undo()
 {
-    qDebug() << "undo called";
     if (!undo_stack.empty()) {
         Action last = undo_stack.back();
         undo_stack.pop_back();
@@ -71,8 +70,8 @@ void House::move(Move move)
 
 void House::rotate(Rotate rotate)
 {
-    if (rotate.center == nullptr) {
-        rotate.center = &this->center;
+    if (!rotate.center.has_value()) {
+        rotate.center = this->center;
     } else {
         MyShapeF::rotatePoint(center, rotate);
     }
@@ -83,8 +82,8 @@ void House::rotate(Rotate rotate)
 
 void House::scale(Scale scale)
 {
-    if (scale.center == nullptr) {
-        scale.center = &this->center;
+    if (!scale.center.has_value()) {
+        scale.center = this->center;
     } else {
         MyShapeF::scalePoint(center, scale);
     }
@@ -162,7 +161,7 @@ void House::createWall()
     objects << wall;
 }
 
-Action House::inverseAction(const Action &action)
+Action House::inverseAction(Action &action)
 {
     Action reversed = action;
     switch (action.type) {

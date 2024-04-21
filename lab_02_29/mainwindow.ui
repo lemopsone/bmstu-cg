@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Лабораторная работа №1</string>
+   <string>Лабораторная работа №2</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -930,7 +930,7 @@
       <x>900</x>
       <y>820</y>
       <width>171</width>
-      <height>131</height>
+      <height>133</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="centerVBox">

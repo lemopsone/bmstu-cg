@@ -7,12 +7,12 @@ enum ActionType { SCALE, ROTATE, MOVE };
 
 struct Scale {
     qreal kx, ky;
-    QPointF *center = nullptr;
+    std::optional<QPointF> center = std::nullopt;
 };
 
 struct Rotate {
     qreal angle;
-    QPointF *center = nullptr;
+    std::optional<QPointF> center = std::nullopt;
 };
 
 struct Move {

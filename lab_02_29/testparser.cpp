@@ -32,28 +32,55 @@ QList<Test> TestParser::tests()
             // name
             QString name = testJson["name"].toString();
 
-            // rectangle
-            QJsonArray rectangle = testJson["rectangle"].toArray();
-            QPointF rectPoints[4];
-            for (qsizetype i = 0; i < 4; i++) {
-                QJsonArray point = rectangle[i].toArray();
-                double x = point.at(0).toDouble();
-                double y = point.at(1).toDouble();
-                rectPoints[i] = QPointF(x, y);
-            }
-            MyRectF rect(rectPoints);
+            // desc
+            QString desc = testJson["desc"].toString();
 
-            // points
-            QList<QPointF> points;
-            QJsonArray pointsArray = testJson["points"].toArray();
-            for (const auto& pointData : pointsArray) {
-                QJsonArray point = pointData.toArray();
-                double x = point.at(0).toDouble();
-                double y = point.at(1).toDouble();
-                points.append(QPointF(x, y));
+            // actions
+            QList<Action> actions;
+            QJsonArray actionsJson = testJson["actions"].toArray();
+            for (auto actionRef : actionsJson) {
+                QJsonObject action = actionRef.toObject();
+                QString actionType = action["type"].toString();
+                if (actionType == "rotate") {
+                    Rotate rotate = {
+                        .angle = qDegreesToRadians(action["angle"].toDouble()),
+                    };
+                    if (!action["center"].isUndefined()) {
+                        QJsonObject centerJson = action["center"].toObject();
+                        double x = centerJson["x"].toDouble();
+                        double y = centerJson["y"].toDouble();
+                        rotate.center = QPointF(x, y);
+                    }
+                    actions.append(
+                        Action{ .type = ROTATE, .rotate = rotate }
+                        );
+                } else if (actionType == "move") {
+                    Move move = {
+                        .x = action["x"].toDouble(),
+                        .y = action["y"].toDouble()
+                    };
+                    actions.append(
+                        Action{ .type = MOVE, .move = move }
+                        );
+                } else if (actionType == "scale") {
+                    Scale scale = {
+                        .kx = action["kx"].toDouble(),
+                        .ky = action["ky"].toDouble()
+                    };
+
+                    if (!action["center"].isUndefined()) {
+                        QJsonObject centerJson = action["center"].toObject();
+                        double x = centerJson["x"].toDouble();
+                        double y = centerJson["y"].toDouble();
+                        scale.center = QPointF(x, y);
+                    }
+                    actions.append(
+                        Action{ .type = SCALE, .scale = scale }
+                        );
+                }
             }
 
-            tests.append(Test(name, points, rect));
+            tests.append(Test(name, desc, actions));
         }
     }
 

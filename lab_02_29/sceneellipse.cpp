@@ -21,6 +21,7 @@ void SceneEllipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QPen pen = QPen(Qt::magenta);
     pen.setWidth(2);
     painter->setPen(pen);
+    painter->setBrush(Qt::NoBrush);
     this->scene->drawEllipse(painter, _ellipse);
 }
 

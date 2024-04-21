@@ -23,10 +23,9 @@ OUT_FOLDER := ./out
 BUILD_FOLDER := ./build
 EXECUTABLE_NAME := release.exe
 UNIT_EXEC_NAME := unit
-PROJECT_FILE := lab_01_29.pro
 
 SOURCES := 
-PHONY: run clean build release format checkall saveolds
+PHONY: run clean build release format checkall saveolds report-unittesting-latest.txt report-functesting-latest.txt
 
 run: release
 	@$(OUT_FOLDER)/$(EXECUTABLE_NAME)
@@ -36,7 +35,8 @@ clean:
 	-$(RMDIR) -f $(OUT_FOLDER)
 	-$(RMDIR) -f cmake-build-debug
 	find . -name '*.txt' -not -name '*-old.txt' -not -name 'CMakeLists.txt' -delete
-	rm -r *.{profdata,profraw}
+	-$(RMDIR) *.{profdata,profraw}
+	-$(RMDIR) ./func/*.png
 
 release: ./build.sh
 	@./build.sh release
@@ -56,8 +56,12 @@ saveolds:
 unit_test: ./build.sh
 	@./build.sh unit
 
+func_test: ./build.sh
+	@./build.sh func 
+
 report-unittesting-latest.txt: unit_test
 	./coverage.sh unit > report-unittesting-latest.txt
 
-report-functesting-latest.txt:
-	echo "NOT IMPLEMENTED"
+report-functesting-latest.txt: func_test
+	./coverage.sh func ../func/tests.json > report-functesting-latest.txt
+

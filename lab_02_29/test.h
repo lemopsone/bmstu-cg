@@ -5,22 +5,23 @@
 #include <QList>
 #include <QString>
 
-#include "myrectf.h"
+#include "actions.h"
 
 class Test
 {
 public:
     Test();
-    Test(QString name, QList<QPointF> points, MyRectF rect);
+    Test(QString name, QString desc, QList<Action> actions);
     QString name() const;
-    QList<QPointF> points() const;
-    MyRectF rect() const;
+    QString desc() const;
+    QList<Action> actions() const;
+
     bool isEmpty();
 
 private:
     QString name_;
-    QList<QPointF> points_;
-    MyRectF rect_;
+    QString desc_;
+    QList<Action> actions_;
 };
 QDebug operator<<(QDebug stream, const Test &test);
 

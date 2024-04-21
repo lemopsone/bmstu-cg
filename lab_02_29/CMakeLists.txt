@@ -47,7 +47,8 @@ set(COMMON_SOURCES
 
 add_executable(release ${COMMON_SOURCES} main.cpp)
 add_executable(func ${COMMON_SOURCES} main.cpp)
-add_executable(unit ${COMMON_SOURCES})
+add_executable(unit ${COMMON_SOURCES} testactions.h testactions.cpp
+)
 
 target_link_libraries(release PRIVATE
         Qt6::Core
@@ -75,6 +76,3 @@ target_link_options(unit PRIVATE -fprofile-instr-generate)
 target_compile_options(func PRIVATE -g -fprofile-instr-generate -fcoverage-mapping -O0)
 
 target_link_options(func PRIVATE -fprofile-instr-generate)
-
-get_target_property(COMPILE_OPTIONS unit COMPILE_OPTIONS)
-message("Compile options: ${COMPILE_OPTIONS}")

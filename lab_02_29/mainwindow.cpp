@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFile>
 
 MainWindow::MainWindow(Test test, QWidget *parent)
     : QMainWindow(parent)
@@ -16,7 +17,7 @@ MainWindow::MainWindow(Test test, QWidget *parent)
     // Сигналы, слоты
     this->connectAll();
 
-    // Если есть активный тест, добавить все точки и построить прямоугольник
+    // Если есть активный тест, провести тестирование
     if (!test.isEmpty()) {
         this->populateTestData(test);
     }
@@ -99,7 +100,7 @@ void MainWindow::connectAll()
                   SIGNAL(clicked()),
                   this,
                   SLOT(onRedoButtonClicked()));
-    this->setAttribute(Qt::WA_DeleteOnClose);
+    this->setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
 void MainWindow::showTaskPopUp()
@@ -159,14 +160,14 @@ void MainWindow::onRotateButtonClicked()
     double angleDegrees = this->ui->rotateAngleLineEdit->text().toDouble(&angleOk);
     Rotate rotate{
         .angle = qDegreesToRadians(angleDegrees),
-        .center = nullptr
+        .center = std::nullopt
     };
     if (!angleOk) {
         this->ui->rotateAngleLineEdit->setText(QString("0.0"));
     } else if (this->scene->house != nullptr) {
         if (this->ui->radioCustomPoint->isChecked() && centerIsValid()) {
             center = readCenter();
-            rotate.center = &center;
+            rotate.center = std::nullopt;
         }
         this->scene->house->processAction(Action{ .type = ROTATE, .rotate = rotate });
         this->scene->update();
@@ -181,7 +182,7 @@ void MainWindow::onScaleButtonClicked()
     Scale scale{
         .kx = this->ui->scaleXLineEdit->text().toDouble(&xOk),
         .ky = this->ui->scaleYLineEdit->text().toDouble(&yOk),
-        .center = nullptr
+        .center = std::nullopt
     };
     if (!xOk || !yOk) {
         this->ui->scaleXLineEdit->setText(QString("1.0"));
@@ -189,7 +190,7 @@ void MainWindow::onScaleButtonClicked()
     } else if (this->scene->house != nullptr) {
         if (this->ui->radioCustomPoint->isChecked() && centerIsValid()) {
             center = readCenter();
-            scale.center = &center;
+            scale.center = center;
         }
         this->scene->house->processAction(Action{ .type = SCALE, .scale = scale });
         this->scene->update();
@@ -217,7 +218,34 @@ void MainWindow::onRedoButtonClicked()
 
 void MainWindow::populateTestData(Test test)
 {
-    return;
+    this->onDrawHouseButtonClicked();
+    for (auto action : test.actions())
+    {
+        switch (action.type) {
+        case SCALE:
+            this->scene->house->scale(action.scale);
+            break;
+        case ROTATE:
+            this->scene->house->rotate(action.rotate);
+            break;
+        case MOVE:
+            this->scene->house->move(action.move);
+            break;
+        }
+        this->scene->update();
+    }
+    scene->autoScaleContents();
+
+    QImage image(scene->getGraphicsWindow().size().toSize(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.mirror();
+    QString filename = QCoreApplication::applicationDirPath() + "/" + QString("../func/%1.png").arg(test.name());
+    image.save(filename, "png");
+
+    this->deleteLater();
 }
 
 void MainWindow::onDrawHouseButtonClicked()

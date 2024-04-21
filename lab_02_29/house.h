@@ -43,7 +43,7 @@ private:
     CoordinateScene *scene;
 
 
-    Action inverseAction(const Action &action);
+    Action inverseAction(Action &action);
 
 };
 
