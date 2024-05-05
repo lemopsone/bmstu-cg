@@ -5,6 +5,7 @@ StepLengthGraph::StepLengthGraph(qsizetype lineLength, QWidget *parent)
     : QWidget(parent), ui(new Ui::StepLengthGraph) {
   ui->setupUi(this);
 
+  ui->label->setText(QString("Графики (длина линии = %1)").arg(lineLength));
   QStringList methodNames{"ЦДА", "Брезенхем (целые числа)",
                           "Брезенхем (вещественные числа)",
                           "Брезенхем (устранение ступенчатости)", "Ву"};

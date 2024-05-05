@@ -161,7 +161,7 @@ void MainWindow::onTimeComparisonButtonClicked() {
 }
 
 void MainWindow::onGraphButtonClicked() {
-  this->graph = new StepLengthGraph;
+  this->graph = new StepLengthGraph(ui->analysisLenEdit->text().toInt());
   graph->show();
 }
 

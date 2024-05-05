@@ -856,10 +856,17 @@
       <x>270</x>
       <y>910</y>
       <width>160</width>
-      <height>71</height>
+      <height>78</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="spectreLayout">
+     <item row="0" column="0" colspan="2">
+      <widget class="QLabel" name="spectreParametersLabel">
+       <property name="text">
+        <string>Параметры спектра</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="spectreLabel">
        <property name="text">
@@ -871,13 +878,6 @@
       <widget class="QLineEdit" name="spectreLineEdit">
        <property name="text">
         <string>5</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0" colspan="2">
-      <widget class="QLabel" name="spectreParametersLabel">
-       <property name="text">
-        <string>Параметры спектра</string>
        </property>
       </widget>
      </item>
@@ -2147,6 +2147,32 @@
     <property name="text">
      <string>Построить графики зависимости
 длины ступеньки от угла поворота</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="analysisLenEdit">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>870</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>100</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="analysisLenLabel">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>870</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Длина линии:</string>
     </property>
    </widget>
   </widget>
