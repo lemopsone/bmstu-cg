@@ -1,6 +1,4 @@
 #include "testdrawing.h"
-#include "circledrawer.h"
-#include "shapeutils.h"
 
 TestDrawing::TestDrawing(QObject *parent) : QObject(parent) {}
 
