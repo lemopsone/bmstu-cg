@@ -10,15 +10,14 @@
 
 #include "test.h"
 
-class TestParser
-{
+class TestParser {
 public:
-    TestParser();
-    bool loadFromFile(QString filepath);
-    QList<Test> tests();
+  TestParser();
+  bool loadFromFile(QString filepath);
+  QList<Test> tests();
 
 protected:
-    QJsonDocument doc;
+  QJsonDocument doc;
 };
 
 LineData readLineFromObject(QJsonObject lineObj);
