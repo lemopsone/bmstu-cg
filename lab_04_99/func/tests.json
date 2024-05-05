@@ -1,0 +1,31 @@
+[
+	{
+		"name": "Test 1",
+		"desc": "Красный эллипс с A = 100, B = 200, построенный по алгоритму Брезенхема, серый фон",
+		"backgroundColor": "gray",
+		"ellipses": [
+			{
+				"a": 100,
+				"b": 200,
+				"algorithm": "Bresenham",
+				"color": "red"
+			}
+		]
+	},
+	{
+		"name": "Test 2",
+		"desc": "Спектр окружностей, построенный параметрическим методом с шагом 25 пикселей",
+		"circleSpectres": [
+			{
+				"center": {
+					"x": 0,
+					"y": 0
+				},
+				"radius": 100,
+				"step": 25,
+				"count": 10,
+				"algorithm": "Parametric"
+			}
+		]
+	}
+]
