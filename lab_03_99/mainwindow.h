@@ -3,10 +3,13 @@
 
 #include <QItemSelection>
 #include <QMainWindow>
+#include <QColorDialog>
 
 #include "coordinatescene.h"
 #include "taskpopup.h"
 #include "test.h"
+#include "timecomparison.h"
+#include "steplengthgraph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,6 +25,8 @@ public:
     ~MainWindow();
     TaskPopUp *taskPop;
     CoordinateScene *scene;
+    TimeComparison *tc;
+    StepLengthGraph *graph;
 
     void initTaskPopUp(void);
     void initGraphicsScene(void);
@@ -36,15 +41,19 @@ public slots:
     void onSceneZoomChanged(double value);
     void onSceneMousePositionChanged(QPointF currentPos);
     void onAutoScaleRadioToggle(bool);
-    void onDDAButtonClicked();
-    void onBresenhamFloatButtonClicked();
-    void onBresenhamIntButtonClicked();
-    void onBresenhamSmoothButtonClicked();
-    void onWuButtonClicked();
+    void onDrawLineButtonClicked();
+    void onDrawSpectreButtonClicked();
+    void onColorChangeButtonClicked();
+    void onBgColorChangeButtonClicked();
+    void onClearScreenButtonClicked();
+    void onTimeComparisonButtonClicked();
+    void onGraphButtonClicked();
 
 private:
     Ui::MainWindow *ui;
+    LineData getLineData();
     QLine readLine();
+    QColor lineColor;
 };
 
 #endif // MAINWINDOW_H

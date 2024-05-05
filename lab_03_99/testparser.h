@@ -21,4 +21,6 @@ protected:
     QJsonDocument doc;
 };
 
+LineData readLineFromObject(QJsonObject lineObj);
+
 #endif // TESTPARSER_H

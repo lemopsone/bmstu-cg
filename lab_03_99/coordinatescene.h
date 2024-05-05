@@ -8,6 +8,7 @@
 #include <QPainter>
 
 #include "linedrawer.h"
+#include "operations.h"
 
 class CoordinateScene : public QGraphicsScene
 {
@@ -27,7 +28,8 @@ public:
     QColor getColor() const;
     void setColor(QColor newColor);
 
-    void addLine(QLine line, LineType type, QColor color);
+    void addLine(LineData dataColor);
+    void addSpectre(LineData data, qreal step);
     void drawPixels(QPainter *painter, QList<Pixel> pixels);
     void setPlane(double x, double y, double w, double h, bool update = true);
     void setPlane(QPointF topLeft, double w, double h, bool update = true);
@@ -98,5 +100,7 @@ protected:
     double getDistance(QPointF a, QPointF b);
     QString printableAngle(qreal angle);
 };
+
+
 
 #endif // COORDINATESCENE_H

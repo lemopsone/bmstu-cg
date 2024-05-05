@@ -8,6 +8,7 @@ class SceneLine : public SceneObject
 {
 public:
     SceneLine(QLine line, LineType type, QColor color, CoordinateScene *scene_);
+    SceneLine(LineData data, CoordinateScene *scene);
     // overrides
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

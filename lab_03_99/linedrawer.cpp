@@ -173,7 +173,7 @@ QList<Pixel> LineDrawer::BresenhamSmooth(QPoint start,
 
     while (x != end.x() || y != end.y())
     {
-        points << Pixel{ QPoint(x, y), gradient.at(std::round(e) - 1) };
+        points << Pixel{ QPoint(x, y), gradient.at(std::max(std::round(e) - 1, 0.0)) };
         if (e < threshold)
         {
             (swapped)
@@ -275,6 +275,47 @@ QList<Pixel> LineDrawer::Wu(QPoint start, QPoint end, QColor foreground, QColor 
     }
 
     return points;
+}
+
+qreal LineDrawer::avgStep(QList<Pixel> pixels)
+{
+    QPointF prevPoint = pixels.first().point;
+    qreal sum = 0;
+    qreal currentLen = 1;
+    qreal count = 0;
+    for (auto pixel : pixels) {
+        if (pixel.point.y() == prevPoint.y()) {
+            currentLen++;
+        }
+        else {
+            sum += currentLen;
+            count++;
+            currentLen = 1;
+        }
+        prevPoint = pixel.point;
+    }
+    sum += currentLen;
+    count++;
+    return sum / count;
+}
+
+qsizetype LineDrawer::stepCount(QList<Pixel> pixels)
+{
+    qsizetype count = 1;
+    QPoint prevPoint = pixels.first().point;
+    for (auto pixel : pixels)
+    {
+        if (qAbs(pixel.point.x() - prevPoint.x()) >= 1
+            && qAbs(pixel.point.y() - prevPoint.y()) >= 1)
+        {
+            count++;
+        }
+        if (prevPoint.x() != pixel.point.x()) {
+            prevPoint = pixel.point;
+        }
+    }
+
+    return count;
 }
 
 int sign(qreal value)

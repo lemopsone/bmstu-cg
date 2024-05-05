@@ -1,6 +1,8 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include <QFile>
+
+#include "ui_mainwindow.h"
+
 
 MainWindow::MainWindow(Test test, QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +19,9 @@ MainWindow::MainWindow(Test test, QWidget *parent)
     // Сигналы, слоты
     this->connectAll();
 
+    this->ui->colorChangeButton->setPalette(QPalette(Qt::black));
+    this->ui->bgColorChangeButton->setPalette(QPalette(Qt::white));
+
     // Если есть активный тест, провести тестирование
     if (!test.isEmpty()) {
         this->populateTestData(test);
@@ -28,6 +33,8 @@ MainWindow::~MainWindow()
     delete this->scene;
     delete this->ui;
     delete this->taskPop;
+    if (tc)
+        delete tc;
 }
 
 void MainWindow::initTaskPopUp()
@@ -43,7 +50,6 @@ void MainWindow::initGraphicsScene()
                                               -viewGeometry.height() / 2,
                                               viewGeometry.width(),
                                               viewGeometry.height());
-    // QRectF planeCoordinates = QRectF(-12, -8, 24, 16);
 
     this->scene = new CoordinateScene(graphicsWindowCoordinates,
                                       graphicsWindowCoordinates,
@@ -73,26 +79,32 @@ void MainWindow::connectAll()
                   SIGNAL(mousePositionChanged(QPointF)),
                   this,
                   SLOT(onSceneMousePositionChanged(QPointF)));
-    this->connect(this->ui->buttonDDA,
+    this->connect(this->ui->drawLineButton,
                   SIGNAL(clicked()),
                   this,
-                  SLOT(onDDAButtonClicked()));
-    this->connect(this->ui->buttonBresenhamFloat,
+                  SLOT(onDrawLineButtonClicked()));
+    this->connect(this->ui->drawSpectreButton,
                   SIGNAL(clicked()),
                   this,
-                  SLOT(onBresenhamFloatButtonClicked()));
-    this->connect(this->ui->buttonBresenhamInt,
+                  SLOT(onDrawSpectreButtonClicked()));
+    this->connect(this->ui->colorChangeButton,
+                  SIGNAL(clicked()),
+                  SLOT(onColorChangeButtonClicked()));
+    this->connect(this->ui->bgColorChangeButton,
+                  SIGNAL(clicked()),
+                  SLOT(onBgColorChangeButtonClicked()));
+    this->connect(this->ui->clearScreenButton,
                   SIGNAL(clicked()),
                   this,
-                  SLOT(onBresenhamIntButtonClicked()));
-    this->connect(this->ui->buttonBresenhamSmooth,
+                  SLOT(onClearScreenButtonClicked()));
+    this->connect(this->ui->timeComparisonButton,
                   SIGNAL(clicked()),
                   this,
-                  SLOT(onBresenhamSmoothButtonClicked()));
-    this->connect(this->ui->buttonWu,
+                  SLOT(onTimeComparisonButtonClicked()));
+    this->connect(this->ui->graphButton,
                   SIGNAL(clicked()),
                   this,
-                  SLOT(onWuButtonClicked()));
+                  SLOT(onGraphButtonClicked()));
     this->setAttribute(Qt::WA_DeleteOnClose, true);
 }
 
@@ -129,39 +141,67 @@ void MainWindow::onAutoScaleRadioToggle(bool state)
     this->scene->setAutoScale(state);
 }
 
-void MainWindow::onDDAButtonClicked()
+void MainWindow::onDrawLineButtonClicked()
 {
-    QLine line = readLine();
-    QColor color = Qt::red;
-    scene->addLine(line, LineType::DDA, color);
+    LineData data = getLineData();
+    scene->addLine(data);
 }
 
-void MainWindow::onBresenhamFloatButtonClicked()
+void MainWindow::onDrawSpectreButtonClicked()
 {
-    QLine line = readLine();
-    QColor color = Qt::blue;
-    scene->addLine(line, LineType::BRESENHAM_FLOAT, color);
+    LineData data = getLineData();
+    qreal angle = ui->spectreLineEdit->text().toDouble();
+    scene->addSpectre(data, angle);
 }
 
-void MainWindow::onBresenhamIntButtonClicked()
+LineData MainWindow::getLineData()
 {
-    QLine line = readLine();
-    QColor color = Qt::green;
-    scene->addLine(line, LineType::BRESENHAM_INT, color);
+    LineData ret;
+    ret.line = readLine();
+    if (ui->radioDDA->isChecked())
+        ret.type = LineType::DDA;
+    else if (ui->radioBresenhamFloat->isChecked())
+        ret.type = LineType::BRESENHAM_FLOAT;
+    else if (ui->radioBresenhamInt->isChecked())
+        ret.type = LineType::BRESENHAM_INT;
+    else if (ui->radioBresenhamSmooth->isChecked())
+        ret.type = LineType::BRESENHAM_SMOOTH;
+    else if (ui->radioWu->isChecked())
+        ret.type = LineType::WU;
+    ret.color = lineColor;
+
+    return ret;
 }
 
-void MainWindow::onBresenhamSmoothButtonClicked()
+void MainWindow::onColorChangeButtonClicked()
 {
-    QLine line = readLine();
-    QColor color = Qt::black;
-    scene->addLine(line, LineType::BRESENHAM_SMOOTH, color);
+    this->lineColor = QColorDialog::getColor();
+    this->ui->colorChangeButton->setPalette(QPalette(this->lineColor));
 }
 
-void MainWindow::onWuButtonClicked()
+void MainWindow::onBgColorChangeButtonClicked()
 {
-    QLine line = readLine();
-    QColor color = Qt::yellow;
-    scene->addLine(line, LineType::WU, color);
+    QColor color = QColorDialog::getColor();
+    this->scene->setColor(color);
+    this->ui->bgColorChangeButton->setPalette(QPalette(color));
+}
+
+void MainWindow::onClearScreenButtonClicked()
+{
+    scene->clear();
+    scene->update();
+}
+
+void MainWindow::onTimeComparisonButtonClicked()
+{
+    this->tc = new TimeComparison();
+    tc->show();
+}
+
+void MainWindow::onGraphButtonClicked()
+{
+    this->graph = new StepLengthGraph;
+    graph->show();
 }
 
 QLine MainWindow::readLine()
@@ -169,12 +209,29 @@ QLine MainWindow::readLine()
     QPoint p1, p2;
     p1.setX(ui->firstPointEditX->text().toInt());
     p1.setY(ui->firstPointEditY->text().toInt());
-    p1.setX(ui->secondPointEditX->text().toInt());
-    p1.setY(ui->secondPointEditY->text().toInt());
+    p2.setX(ui->secondPointEditX->text().toInt());
+    p2.setY(ui->secondPointEditY->text().toInt());
     return QLine(p1, p2);
 }
 
 void MainWindow::populateTestData(Test test)
 {
+    scene->setGridVisibility(false);
+    scene->setColor(test.backgroundColor());
+    for (auto line : test.lines()) {
+        scene->addLine(line);
+    }
+    for (auto spectre : test.spectres()) {
+        scene->addSpectre(spectre.lineData, spectre.angle);
+    }
 
+    QImage image(scene->getGraphicsWindow().size().toSize(), QImage::Format_ARGB32);
+
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.mirror();
+    QString filename = QCoreApplication::applicationDirPath() + "/" + QString("../func/%1.png").arg(test.name());
+    image.save(filename, "png");
+
+    this->deleteLater();
 }

@@ -20,16 +20,25 @@ enum LineType {
     WU
 };
 
+struct LineData {
+    QLine line;
+    LineType type;
+    QColor color = Qt::black;
+};
+
 class LineDrawer
 {
 public:
-    static  QList<Pixel> DDA(QPoint start, QPoint end, QColor color);
-    static QList<Pixel> Bresenham(QPoint start, QPoint end, QColor color);
-    static QList<Pixel> BresenhamInt(QPoint start, QPoint end, QColor color);
+    static QList<Pixel> DDA(QPoint start, QPoint end, QColor color = Qt::black);
+    static QList<Pixel> Bresenham(QPoint start, QPoint end, QColor color = Qt::black);
+    static QList<Pixel> BresenhamInt(QPoint start, QPoint end, QColor color = Qt::black);
     static QList<Pixel> BresenhamSmooth(QPoint start, QPoint end,
                                      QColor foreground = Qt::black, QColor background = Qt::white);
     static QList<Pixel> Wu(QPoint start, QPoint end,
                             QColor foreground = Qt::black, QColor background = Qt::white);
+
+    static qreal avgStep(QList<Pixel> pixels);
+    static qsizetype stepCount(QList<Pixel> pixels);
 };
 
 int sign(qreal value);

@@ -58,20 +58,39 @@ QColor CoordinateScene::getColor() const
 void CoordinateScene::setColor(QColor newColor)
 {
     color = newColor;
-}
-
-void CoordinateScene::addLine(QLine line, LineType type, QColor color)
-{
-    qDebug() << line;
-    addItem(new SceneLine(line, type, color, this));
     update();
 }
+
+void CoordinateScene::addLine(LineData data)
+{
+    addItem(new SceneLine(data, this));
+    update();
+}
+
+void CoordinateScene::addSpectre(LineData data, qreal step)
+{
+    qreal angle = 0;
+    while (angle < 360) {
+        QLine spectreLine(
+            data.line.p1(),
+            rotatePoint(data.line.p2(), data.line.p1(), angle)
+        );
+        addItem(new SceneLine(spectreLine, data.type, data.color, this));
+
+        angle += step;
+    }
+    update();
+}
+
 
 void CoordinateScene::drawPixels(QPainter *painter, QList<Pixel> pixels)
 {
     painter->setTransform(getTransform());
     for (Pixel pixel : pixels) {
-        painter->setPen(pixel.color);
+        QPen pen;
+        pen.setColor(pixel.color);
+        pen.setWidthF(this->cX);
+        painter->setPen(pen);
         QPointF adjustedPoint = toWindowCoords(pixel.point);
         painter->drawPoint(adjustedPoint);
     }

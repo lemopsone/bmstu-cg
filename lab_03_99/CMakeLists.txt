@@ -6,7 +6,7 @@ project(lab_03_99 VERSION 1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_FLAGS -Wall)
 
 find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Test Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Test Widgets Charts)
 qt_standard_project_setup()
 
 set(CMAKE_AUTOUIC ON)
@@ -21,31 +21,36 @@ set(COMMON_SOURCES
         taskpopup.cpp taskpopup.h taskpopup.ui
         test.cpp test.h
         testparser.cpp testparser.h
+        linedrawer.h linedrawer.cpp
+        timecomparison.h timecomparison.cpp timecomparison.ui
+        steplengthgraph.h steplengthgraph.cpp steplengthgraph.ui
+        operations.cpp operations.h
 )
 
-add_executable(release ${COMMON_SOURCES} main.cpp
-    linedrawer.h linedrawer.cpp)
+add_executable(release ${COMMON_SOURCES} main.cpp)
 add_executable(func ${COMMON_SOURCES} main.cpp)
+
 add_executable(unit ${COMMON_SOURCES}
-)
+    testlinedrawer.h testlinedrawer.cpp)
 
 target_link_libraries(release PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
+        Qt6::Charts
 )
-
 target_link_libraries(func PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
+        Qt6::Charts
 )
-
 target_link_libraries(unit PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
         Qt6::Test
+        Qt6::Charts
 )
 
 target_compile_options(unit PRIVATE -g -fprofile-instr-generate -fcoverage-mapping -O0)

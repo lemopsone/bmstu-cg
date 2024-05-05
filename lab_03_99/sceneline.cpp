@@ -11,6 +11,15 @@ SceneLine::SceneLine(QLine line, LineType type, QColor color, CoordinateScene *s
     this->setPos(this->line_.center());
 }
 
+SceneLine::SceneLine(LineData data, CoordinateScene *scene_)
+    : SceneObject(scene_)
+{
+    this->line_ = data.line;
+    this->type_ = data.type;
+    this->color_ = data.color;
+    this->setPos(this->line_.center());
+}
+
 QRectF SceneLine::boundingRect() const
 {
     return QRectF(this->line_.p1(), this->line_.p2()).normalized();
