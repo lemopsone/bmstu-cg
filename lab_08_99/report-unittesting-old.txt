@@ -1,0 +1,28 @@
+Coverage: 13.95%
+
+LLVM-COV REPORT:
+Filename                      Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+clipper.cpp                        54                13    75.93%          12                 4    66.67%          97                29    70.10%          30                11    63.33%
+coordinatescene.cpp                92                92     0.00%          25                25     0.00%         206               206     0.00%          56                56     0.00%
+linerecord.cpp                     13                13     0.00%          13                13     0.00%          22                22     0.00%           0                 0         -
+linetableviewmodel.cpp             34                34     0.00%           9                 9     0.00%          61                61     0.00%          18                18     0.00%
+mainwindow.cpp                     31                31     0.00%          25                25     0.00%         164               164     0.00%           6                 6     0.00%
+pointrecord.cpp                    12                12     0.00%          12                12     0.00%          37                37     0.00%           0                 0         -
+pointtableviewmodel.cpp            34                34     0.00%           9                 9     0.00%          59                59     0.00%          18                18     0.00%
+taskpopup.cpp                       3                 3     0.00%           3                 3     0.00%           7                 7     0.00%           0                 0         -
+test.cpp                           10                10     0.00%           8                 8     0.00%          12                12     0.00%           4                 4     0.00%
+testclip.cpp                        8                 0   100.00%           3                 0   100.00%          38                 0   100.00%           0                 0         -
+testparser.cpp                     20                20     0.00%           5                 5     0.00%          57                57     0.00%          16                16     0.00%
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                             311               262    15.76%         124               113     8.87%         760               654    13.95%         148               129    12.84%
+
+UNIT TESTS OUTPUT:
+********* Start testing of TestClip *********
+Config: Using QtTest library 6.7.0, Qt 6.7.0 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 15.0.0 (clang-1500.3.9.4)), macos 14.4
+PASS   : TestClip::initTestCase()
+PASS   : TestClip::testIntersection()
+PASS   : TestClip::testNoIntersection()
+PASS   : TestClip::cleanupTestCase()
+Totals: 4 passed, 0 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of TestClip *********
