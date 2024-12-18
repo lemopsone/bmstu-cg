@@ -1,0 +1,33 @@
+Coverage: 2.39%
+
+LLVM-COV REPORT:
+Filename                      Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+addrecorddialog.cpp                 9                 9     0.00%           4                 4     0.00%          25                25     0.00%           4                 4     0.00%
+coordinatescene.cpp               196               196     0.00%          67                67     0.00%         486               486     0.00%         112               112     0.00%
+mainwindow.cpp                     93                93     0.00%          28                28     0.00%         336               336     0.00%          64                64     0.00%
+myrectf.cpp                        27                27     0.00%           6                 6     0.00%          53                53     0.00%          16                16     0.00%
+myshapef.cpp                       20                19     5.00%           8                 7    12.50%          49                48     2.04%          16                16     0.00%
+mytrianglef.cpp                    20                 9    55.00%           7                 4    42.86%          55                31    43.64%          10                 6    40.00%
+pointrecord.cpp                    12                12     0.00%          12                12     0.00%          37                37     0.00%           0                 0         -
+pointtableviewmodel.cpp            34                34     0.00%           9                 9     0.00%          60                60     0.00%          18                18     0.00%
+sceneellipse.cpp                    7                 7     0.00%           4                 4     0.00%          24                24     0.00%           2                 2     0.00%
+sceneline.cpp                       6                 6     0.00%           3                 3     0.00%          19                19     0.00%           2                 2     0.00%
+sceneobject.cpp                     3                 3     0.00%           3                 3     0.00%          13                13     0.00%           0                 0         -
+scenepoint.cpp                      8                 8     0.00%           3                 3     0.00%          31                31     0.00%           4                 4     0.00%
+scenerectangle.cpp                  9                 9     0.00%           3                 3     0.00%          25                25     0.00%           4                 4     0.00%
+scenetriangle.cpp                   9                 9     0.00%           3                 3     0.00%          29                29     0.00%           4                 4     0.00%
+taskpopup.cpp                       3                 3     0.00%           3                 3     0.00%          10                10     0.00%           0                 0         -
+test.cpp                           15                15     0.00%           7                 7     0.00%          34                34     0.00%           8                 8     0.00%
+test_mytrianglef.cpp                3                 0   100.00%           2                 0   100.00%           7                 0   100.00%           0                 0         -
+testparser.cpp                     16                16     0.00%           3                 3     0.00%          47                47     0.00%          12                12     0.00%
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                             490               475     3.06%         175               169     3.43%        1340              1308     2.39%         276               272     1.45%
+UNIT TESTS OUTPUT:
+********* Start testing of TestMyTriangleF *********
+Config: Using QtTest library 6.6.2, Qt 6.6.2 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 15.0.0 (clang-1500.1.0.2.5)), macos 14.0
+PASS   : TestMyTriangleF::initTestCase()
+PASS   : TestMyTriangleF::rightTriangle()
+PASS   : TestMyTriangleF::cleanupTestCase()
+Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of TestMyTriangleF *********

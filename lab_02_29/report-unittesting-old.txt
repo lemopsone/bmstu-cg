@@ -1,0 +1,34 @@
+Coverage: 12.80%
+
+LLVM-COV REPORT:
+Filename                      Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+coordinatescene.cpp               134               134     0.00%          44                44     0.00%         364               364     0.00%          82                82     0.00%
+house.cpp                          40                40     0.00%          13                13     0.00%         153               153     0.00%          34                34     0.00%
+mainwindow.cpp                     72                72     0.00%          21                21     0.00%         228               228     0.00%          52                52     0.00%
+myellipsef.cpp                      8                 8     0.00%           8                 8     0.00%          26                26     0.00%           0                 0         -
+myrectf.cpp                        27                26     3.70%           6                 5    16.67%          53                47    11.32%          16                16     0.00%
+myshapef.cpp                       29                 1    96.55%          14                 1    92.86%          90                 4    95.56%          22                 0   100.00%
+mytrapeziumf.cpp                    7                 7     0.00%           6                 6     0.00%          30                30     0.00%           2                 2     0.00%
+sceneellipse.cpp                    6                 6     0.00%           6                 6     0.00%          25                25     0.00%           0                 0         -
+sceneline.cpp                       6                 6     0.00%           6                 6     0.00%          37                37     0.00%           0                 0         -
+sceneobject.cpp                     3                 3     0.00%           3                 3     0.00%          13                13     0.00%           0                 0         -
+scenerectangle.cpp                  6                 6     0.00%           6                 6     0.00%          25                25     0.00%           0                 0         -
+scenetrapezium.cpp                  6                 6     0.00%           6                 6     0.00%          25                25     0.00%           0                 0         -
+taskpopup.cpp                       3                 3     0.00%           3                 3     0.00%          10                10     0.00%           0                 0         -
+test.cpp                            7                 7     0.00%           7                 7     0.00%          22                22     0.00%           0                 0         -
+testactions.cpp                    14                 0   100.00%           4                 0   100.00%          67                 0   100.00%           6                 0   100.00%
+testparser.cpp                     25                25     0.00%           3                 3     0.00%          74                74     0.00%          20                20     0.00%
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                             393               350    10.94%         156               138    11.54%        1242              1083    12.80%         234               206    11.97%
+
+UNIT TESTS OUTPUT:
+********* Start testing of TestActions *********
+Config: Using QtTest library 6.6.2, Qt 6.6.2 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 15.0.0 (clang-1500.1.0.2.5)), macos 14.0
+PASS   : TestActions::initTestCase()
+PASS   : TestActions::moveRect()
+PASS   : TestActions::scaleRect()
+PASS   : TestActions::rotateRect()
+PASS   : TestActions::cleanupTestCase()
+Totals: 5 passed, 0 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of TestActions *********

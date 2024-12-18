@@ -1,0 +1,63 @@
+ifeq ($(OS),Windows_NT)
+	OS = windows
+else 
+	UNAME := $(shell uname -s)
+	ifeq ($(UNAME),Darwin)
+		OS = macos
+	else ifeq ($(UNAME),Linux)
+		OS = linux
+	else
+	$(error Не удалось определить вашу ОС.)
+	endif
+endif
+
+COPY := cp
+RMDIR := rmdir
+ifeq ($(OS),windows)
+	COPY = copy
+else
+	RMDIR = rm -r
+endif
+
+OUT_FOLDER := ./out
+BUILD_FOLDER := ./build
+EXECUTABLE_NAME := release.exe
+UNIT_EXEC_NAME := unit
+PROJECT_FILE := lab_01_29.pro
+
+SOURCES := 
+PHONY: run clean build release format checkall saveolds
+
+run: release
+	@$(OUT_FOLDER)/$(EXECUTABLE_NAME)
+
+clean:
+	-$(RMDIR) -f $(BUILD_FOLDER)
+	-$(RMDIR) -f $(OUT_FOLDER)
+	-$(RMDIR) -f cmake-build-debug
+	find . -name '*.txt' -not -name '*-old.txt' -not -name 'CMakeLists.txt' -delete
+	rm -r *.{profdata,profraw}
+
+release: ./build.sh
+	@./build.sh release
+
+format: .clang_format
+	clang-format -style=file -i *.{cpp,h}
+
+checkall:
+	@lizard > lizard.txt
+	@cppcheck . --library=qt > cppcheck.txt
+	$(info Созданы файлы: lizard.txt, cppcheck.txt)
+
+saveolds:
+	@[ -f ./report-unittesting-latest.txt ] && cp report-unittesting-latest.txt report-unittesting-old.txt || true
+	@[ -f ./report-functesting-latest.txt ] && cp report-functesting-latest.txt report-functesting-old.txt || true
+
+unit_test: ./build.sh
+	@./build.sh unit
+
+report-unittesting-latest.txt: unit_test
+	./coverage.sh unit > report-unittesting-latest.txt
+
+report-functesting-latest.txt:
+	echo "NOT IMPLEMENTED"

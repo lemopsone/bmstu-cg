@@ -1,0 +1,29 @@
+Coverage: 4.58%
+
+LLVM-COV REPORT:
+Filename                      Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+coordinatescene.cpp               114               114     0.00%          42                42     0.00%         327               327     0.00%          70                70     0.00%
+linedrawer.cpp                    104                91    12.50%          10                 8    20.00%         295               255    13.56%          80                69    13.75%
+mainwindow.cpp                     41                41     0.00%          21                21     0.00%         171               171     0.00%          18                18     0.00%
+operations.cpp                      1                 1     0.00%           1                 1     0.00%          16                16     0.00%           0                 0         -
+sceneline.cpp                      10                10     0.00%           4                 4     0.00%          39                39     0.00%          12                12     0.00%
+sceneobject.cpp                     3                 3     0.00%           3                 3     0.00%          13                13     0.00%           0                 0         -
+steplengthgraph.cpp                18                18     0.00%           3                 3     0.00%          73                73     0.00%          18                18     0.00%
+taskpopup.cpp                       3                 3     0.00%           3                 3     0.00%          10                10     0.00%           0                 0         -
+test.cpp                           11                11     0.00%           9                 9     0.00%          31                31     0.00%           4                 4     0.00%
+testlinedrawer.cpp                  3                 0   100.00%           3                 0   100.00%          11                 0   100.00%           0                 0         -
+testparser.cpp                     34                34     0.00%           4                 4     0.00%          75                75     0.00%          26                26     0.00%
+timecomparison.cpp                  4                 4     0.00%           4                 4     0.00%          53                53     0.00%           0                 0         -
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                             346               330     4.62%         107               102     4.67%        1114              1063     4.58%         228               217     4.82%
+
+UNIT TESTS OUTPUT:
+********* Start testing of TestLineDrawer *********
+Config: Using QtTest library 6.6.2, Qt 6.6.2 (arm64-little_endian-lp64 shared (dynamic) release build; by Apple LLVM 15.0.0 (clang-1500.1.0.2.5)), macos 14.4
+PASS   : TestLineDrawer::initTestCase()
+PASS   : TestLineDrawer::countStepsHorizontalLine()
+PASS   : TestLineDrawer::countStepsVerticalLine()
+PASS   : TestLineDrawer::cleanupTestCase()
+Totals: 4 passed, 0 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of TestLineDrawer *********
